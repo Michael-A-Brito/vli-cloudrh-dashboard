@@ -744,6 +744,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </style>
 </head>
 <body>
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="position:fixed;inset:0;z-index:9999;background:#0057B8;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Manrope',sans-serif">
+  <div style="text-align:center;margin-bottom:32px">
+    <div style="font-size:48px;font-weight:800;color:white;line-height:1">VL<span style="color:#F47920;font-style:normal">!</span></div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px">Cloud RH / Migração Nuvem</div>
+  </div>
+  <div style="background:white;border-radius:16px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.25)">
+    <div style="font-size:18px;font-weight:700;color:#0D1B2E;margin-bottom:6px">Acesso Restrito</div>
+    <div style="font-size:13px;color:#5A6B82;margin-bottom:24px">Digite a senha para continuar</div>
+    <input id="login-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')tentarLogin()" style="width:100%;padding:10px 12px;border:1.5px solid #E4EAF2;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;color:#0D1B2E;background:#F0F4F9;outline:none;box-sizing:border-box;margin-bottom:12px">
+    <button onclick="tentarLogin()" style="width:100%;padding:11px;background:#0057B8;color:white;border:none;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:700;cursor:pointer">Acessar</button>
+    <div id="login-erro" style="display:none;margin-top:10px;font-size:12px;font-weight:600;color:#DC2626;text-align:center">Senha incorreta. Tente novamente.</div>
+  </div>
+  <div style="position:fixed;bottom:16px;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px">CONFIDENCIAL</div>
+  <div style="position:fixed;bottom:0;left:0;right:0;height:6px;background:#F47920"></div>
+</div>
 <!-- Modal overlay -->
 <div id="modal-overlay" class="modal-overlay" onclick="closeModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
@@ -2092,6 +2108,46 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <script>
 'use strict';
+// ── AUTENTICAÇÃO SHA-256 ─────────────────────────────
+const SENHA_HASH = '47af2c22bebd5c8a815b63584731f10380af5948b105c32c0430f83b14e15ef6';
+
+async function hashSenha(senha) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(senha);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function tentarLogin() {
+  const input = document.getElementById('login-senha');
+  const erro = document.getElementById('login-erro');
+  const hash = await hashSenha(input.value);
+  if (hash === SENHA_HASH) {
+    sessionStorage.setItem('vli_auth', '1');
+    sessionStorage.setItem('vli_auth_expiry', String(Date.now() + 8 * 60 * 60 * 1000));
+    document.getElementById('login-screen').style.display = 'none';
+    document.body.style.overflow = '';
+  } else {
+    input.style.borderColor = '#DC2626';
+    erro.style.display = 'block';
+    input.value = '';
+    setTimeout(() => { input.style.borderColor = '#E4EAF2'; erro.style.display = 'none'; }, 2000);
+  }
+}
+
+function checkAuth() {
+  const auth = sessionStorage.getItem('vli_auth');
+  const expiry = sessionStorage.getItem('vli_auth_expiry');
+  if (auth && expiry && Date.now() < parseInt(expiry)) {
+    document.getElementById('login-screen').style.display = 'none';
+    return;
+  }
+  document.getElementById('login-screen').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { document.getElementById('login-senha').focus(); }, 100);
+}
+
 // ═══════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════
@@ -3225,6 +3281,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDi
 // ANIMATE PROGRESS BARS ON LOAD
 // ═══════════════════════════════════════════════
 window.addEventListener('load', () => {
+  checkAuth();
   document.querySelectorAll('.prog-fill, .task-progress-fill, .fin-bar-fill').forEach(el => {
     const w = el.style.width;
     el.style.width = '0%';
