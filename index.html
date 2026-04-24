@@ -991,7 +991,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       </div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -1084,7 +1084,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       </div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -1270,7 +1270,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       </div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -1334,7 +1334,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div id="pend-list" class="anim d3" style="display:flex;flex-direction:column;gap:8px"></div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -1561,7 +1561,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       </div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -1893,7 +1893,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       </div>
       <div style="margin-top:16px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
         <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
-        <span>Dados atualizados automaticamente. Última sincronização: 20/04/2026. Em caso de divergências, consulte o Gerente de Projeto.</span>
+        <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">20/04/2026</span>. Em caso de divergências, consulte o Gerente de Projeto.</span>
       </div>
     </section>
 
@@ -2074,7 +2074,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           </div>
           <div style="margin-top:12px;background:#FEF9EC;border:1px solid #FDE68A;border-radius:9px;padding:10px 14px;font-size:11px;color:#92400E;font-weight:600;line-height:1.5;display:flex;gap:8px">
             <span style="font-size:14px;flex-shrink:0;margin-top:1px">⚠️</span>
-            <span>Dados atualizados automaticamente. Última sincronização: 21/04/2026. Para divergências, consulte o Gerente de Projeto.</span>
+            <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">21/04/2026</span>. Para divergências, consulte o Gerente de Projeto.</span>
           </div>
         </div>
       </div>
@@ -3044,8 +3044,10 @@ function openTaskModal(type) {
   const cfg = TASK_MODAL_CONFIG[type];
   if (!cfg) return;
   const items = ALL_PEND.filter(cfg.filter).sort((a,b) => PRIO_ORDER[a.prioridade] - PRIO_ORDER[b.prioridade]);
-  const totalMap = { concluidas:282, abertas:50, atrasadas:33 };
-  const total = totalMap[type];
+  const total = type === 'concluidas' ? PENDENCIAS_OK.length
+              : type === 'atrasadas'  ? PENDENCIAS.filter(p => p.status === 'Atrasado').length
+              : type === 'abertas'    ? PENDENCIAS.filter(p => p.status !== 'Concluído').length
+              : PENDENCIAS.length + PENDENCIAS_OK.length;
   document.getElementById('modal-title').textContent = cfg.title;
   const badge = document.getElementById('modal-badge');
   badge.textContent = total + ' itens';
@@ -3143,6 +3145,29 @@ function openFinModal(mode) {
 }
 
 // ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// DATA DE SINCRONIZAÇÃO — todos os disclaimers
+// ═══════════════════════════════════════════════
+function atualizarDataSync() {
+  const els = document.querySelectorAll('.sync-date');
+  if (!els.length) return;
+  const sidebarEl = document.getElementById('sidebar-footer-date');
+  if (!sidebarEl) return;
+  const dataAtual = sidebarEl.textContent.trim();
+  if (!dataAtual) return;
+  const meses = {
+    janeiro:'01', fevereiro:'02', março:'03', abril:'04',
+    maio:'05', junho:'06', julho:'07', agosto:'08',
+    setembro:'09', outubro:'10', novembro:'11', dezembro:'12'
+  };
+  const parts = dataAtual.toLowerCase().split(' de ');
+  if (parts.length === 3) {
+    const mes = meses[parts[1]] || '??';
+    const dataFmt = parts[0].padStart(2,'0') + '/' + mes + '/' + parts[2];
+    els.forEach(el => el.textContent = dataFmt);
+  }
+}
+
 // ═══════════════════════════════════════════════
 // KPIs DINÂMICOS — pendências
 // ═══════════════════════════════════════════════
@@ -3361,6 +3386,8 @@ window.addEventListener('load', () => {
   filterPend('todos');
   // Atualizar KPIs com dados reais das planilhas
   atualizarKpisPendencias();
+  // Atualizar datas de sincronização em todos os disclaimers
+  atualizarDataSync();
 });
 
 function exportarSync() {
