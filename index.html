@@ -2081,7 +2081,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
       <!-- RENEGOCIAÇÃO DE DATAS -->
       <div class="card anim d2" style="margin-top:20px">
-        <div class="card-title"><div class="card-title-bar" style="background:var(--amber)"></div>Renegociação de Datas — Acordos Comprometidos</div>
+        <div class="card-title"><div class="card-title-bar" style="background:var(--amber)"></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span>Renegociação de Datas — Acordos Comprometidos</span><span id="rn-total-badge" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700">0 pendentes</span></div></div>
         <div id="rn-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:4px"></div>
 
         <!-- Acordos salvos -->
@@ -3252,6 +3252,12 @@ function renderRenegociacao() {
       </button>
     </div>`;
   }).join('');
+  // Atualizar badge do título
+  const badge = document.getElementById('rn-total-badge');
+  if (badge) {
+    badge.textContent = atrasadas.length + ' pendente' +
+                        (atrasadas.length !== 1 ? 's' : '');
+  }
 }
 
 function salvarAcordoId(inputId, modulo, responsavel, btn) {
