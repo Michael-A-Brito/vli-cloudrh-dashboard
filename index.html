@@ -819,6 +819,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <div class="nav-item" onclick="showSection('gestao')">
       <span class="nav-icon">◫</span> Nova Atividade
     </div>
+    <div class="nav-item" onclick="showSection('analise-ia')">
+      <span class="nav-icon">✨</span> Análise IA
+      <span id="nav-badge-analise" style="display:none;margin-left:auto;background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;line-height:1.4;">NOVO</span>
+    </div>
   </nav>
 
   <div class="sidebar-footer">
@@ -2114,6 +2118,83 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         </div>
       </div>
     </section>
+
+    <!-- ══════════ ANÁLISE IA ══════════ -->
+    <section class="section" id="sec-analise-ia">
+      <div class="sec-header">
+        <div class="sec-header-dot"></div>
+        <div>
+          <div class="sec-header-title">✨ Análise IA</div>
+          <div class="sec-header-sub">Narrativa executiva, alertas e projeção de Go-Live gerados automaticamente</div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div style="margin-bottom:20px;background:#F0F6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 14px;font-size:11px;color:#1E3A8A;font-weight:600;line-height:1.5;display:flex;gap:8px">
+        <span style="font-size:14px;flex-shrink:0;margin-top:1px">🔄</span>
+        <span>Análise gerada automaticamente por IA com base nos dados do projeto. Última sincronização: <span class="sync-date">--/--/----</span>. Para decisões críticas, valide com o Gerente de Projeto.</span>
+      </div>
+
+      <!-- Estado vazio -->
+      <div id="analise-vazio" style="display:none">
+        <div style="background:var(--amber-bg);border:1px solid #FDE68A;border-radius:12px;padding:40px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:12px">⚠️</div>
+          <div style="font-weight:700;font-size:16px;color:var(--amber)">Análise ainda não gerada</div>
+          <div style="color:var(--text-secondary);font-size:13px;margin-top:8px;line-height:1.6">
+            O pipeline ainda não executou o script <code>gerar-analise.js</code>.<br>
+            Execute o workflow manualmente ou aguarde a próxima segunda-feira 08h00.
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteúdo -->
+      <div id="analise-conteudo" style="display:none">
+
+        <!-- Timestamp -->
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;display:flex;align-items:center;gap:6px">
+          🤖 <span id="analise-ts-texto"></span>
+        </div>
+
+        <!-- KPIs snapshot -->
+        <div id="analise-kpis" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px"></div>
+
+        <!-- Narrativa -->
+        <div class="card anim d1" style="margin-bottom:20px">
+          <div class="card-title">
+            <div class="card-title-bar"></div>
+            📝 Narrativa Executiva
+          </div>
+          <div id="analise-narrativa"
+               style="background:var(--blue-xlight);border-left:4px solid var(--blue);padding:16px 20px;border-radius:0 8px 8px 0;color:var(--text-primary);font-size:14px;line-height:1.75;font-weight:500">
+          </div>
+        </div>
+
+        <!-- Alertas + Projeção lado a lado -->
+        <div class="grid-2 anim d2">
+
+          <!-- Alertas -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px">
+              <div class="card-title-bar" style="background:var(--amber)"></div>
+              ⚠️ Alertas Inteligentes
+              <span id="analise-alertas-count" style="margin-left:auto;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px"></span>
+            </div>
+            <div id="analise-alertas"></div>
+          </div>
+
+          <!-- Projeção Go-Live -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px">
+              <div class="card-title-bar" style="background:var(--green)"></div>
+              🎯 Projeção de Go-Live
+            </div>
+            <div id="analise-projecao" style="display:flex;flex-direction:column;gap:12px"></div>
+          </div>
+
+        </div>
+      </div><!-- /analise-conteudo -->
+
+    </section><!-- /sec-analise-ia -->
 
   </div><!-- /content -->
 </div><!-- /main -->
@@ -3513,6 +3594,7 @@ window.addEventListener('load', () => {
   // Valores padrão do cronograma — sobrescritos pelo pipeline via atualizar-dashboard.js
   window.__fp_total = 93;
   window.__fr_total = 62;
+  window.__ANALISE__ = null;
   document.querySelectorAll('.prog-fill, .task-progress-fill, .fin-bar-fill').forEach(el => {
     const w = el.style.width;
     el.style.width = '0%';
@@ -3535,7 +3617,100 @@ window.addEventListener('load', () => {
   atualizarKpisPendencias();
   // Atualizar datas de sincronização em todos os disclaimers
   atualizarDataSync();
+  // Pré-renderizar seção Análise IA
+  renderAnaliseIA();
 });
+
+// ═══════════════════════════════════════════════
+// ANÁLISE IA — renderização
+// ═══════════════════════════════════════════════
+function renderAnaliseIA() {
+  const vazio    = document.getElementById('analise-vazio');
+  const conteudo = document.getElementById('analise-conteudo');
+  const dados    = window.__ANALISE__;
+
+  if (!dados || !dados.narrativa) {
+    if (vazio)    vazio.style.display    = 'block';
+    if (conteudo) conteudo.style.display = 'none';
+    return;
+  }
+  if (vazio)    vazio.style.display    = 'none';
+  if (conteudo) conteudo.style.display = 'block';
+
+  // Badge NOVO no nav se análise tem menos de 7 dias
+  const ts = new Date(dados.gerado_em);
+  const badge = document.getElementById('nav-badge-analise');
+  if (badge && (Date.now() - ts.getTime()) < 7 * 24 * 60 * 60 * 1000) {
+    badge.style.display = 'inline-block';
+  }
+
+  // Timestamp
+  const tsEl = document.getElementById('analise-ts-texto');
+  if (tsEl) tsEl.textContent = 'Análise gerada em ' +
+    ts.toLocaleDateString('pt-BR') + ' às ' +
+    ts.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+  // KPIs snapshot
+  const kpisEl = document.getElementById('analise-kpis');
+  if (kpisEl && dados.dados) {
+    const d = dados.dados;
+    kpisEl.innerHTML = [
+      { label:'Físico Realizado',  valor: d.fr_total  + '%', bg:'#EBF3FF',           color:'var(--blue)'    },
+      { label:'Planejado',         valor: d.fp_total  + '%', bg:'var(--bg)',          color:'var(--text-secondary)' },
+      { label:'Financeiro Exec.',  valor: d.pr_pct    + '%', bg:'#FFF4EC',           color:'var(--orange)'  },
+      { label:'Desvio (p.p.)',     valor: d.desvio,          bg:'var(--red-bg)',      color:'var(--red)'     },
+      { label:'Pend. Atrasadas',   valor: d.n_atrasadas,     bg:'var(--amber-bg)',    color:'var(--amber)'   },
+    ].map(k => `
+      <div style="background:${k.bg};border-radius:10px;padding:14px;text-align:center;box-shadow:var(--shadow-card)">
+        <div style="font-size:24px;font-weight:800;color:${k.color};letter-spacing:-1px">${k.valor}</div>
+        <div style="font-size:10px;color:var(--text-secondary);margin-top:5px;font-weight:600;text-transform:uppercase;letter-spacing:.4px">${k.label}</div>
+      </div>`).join('');
+  }
+
+  // Narrativa
+  const narrativaEl = document.getElementById('analise-narrativa');
+  if (narrativaEl) narrativaEl.textContent = dados.narrativa;
+
+  // Alertas
+  const alertasEl    = document.getElementById('analise-alertas');
+  const alertasCount = document.getElementById('analise-alertas-count');
+  if (alertasEl && Array.isArray(dados.alertas)) {
+    if (alertasCount) alertasCount.textContent = dados.alertas.length + ' alertas';
+    const sevCfg = {
+      'CRÍTICO': { bg:'var(--red-bg)',   color:'var(--red)',   emoji:'🔴' },
+      'ALTO':    { bg:'var(--amber-bg)', color:'var(--amber)', emoji:'🟠' },
+      'MÉDIO':   { bg:'var(--green-bg)', color:'var(--green)', emoji:'🟡' }
+    };
+    alertasEl.innerHTML = dados.alertas.map(a => {
+      const s = sevCfg[a.severidade] || sevCfg['MÉDIO'];
+      return `<div style="display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:13px;color:var(--text-primary)">${s.emoji} ${a.titulo}</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.5">${a.descricao}</div>
+        </div>
+        <span style="background:${s.bg};color:${s.color};padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0">${a.severidade}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Projeção
+  const projecaoEl = document.getElementById('analise-projecao');
+  if (projecaoEl && Array.isArray(dados.projecao)) {
+    projecaoEl.innerHTML = dados.projecao.map((p, i) => {
+      const cor = p.confianca >= 70 ? 'var(--green)' : p.confianca >= 50 ? 'var(--amber)' : 'var(--red)';
+      return `<div style="background:var(--bg);border-radius:10px;padding:18px;border:1px solid var(--border)">
+        <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Cenário ${i + 1}</div>
+        <div style="font-weight:800;color:var(--blue-dark,#003878);font-size:15px">${p.cenario}</div>
+        <div style="display:flex;align-items:center;margin-top:10px;gap:8px">
+          <span style="font-size:13px;color:var(--text-primary)">📅 ${p.data}</span>
+          <span style="margin-left:auto;font-size:22px;font-weight:800;color:${cor}">${p.confianca}%</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;text-align:right">confiança</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:10px;line-height:1.5;border-top:1px solid var(--border);padding-top:10px">${p.condicao}</div>
+      </div>`;
+    }).join('');
+  }
+}
 
 function exportarSync() {
   const hoje = new Date();
