@@ -1805,17 +1805,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div class="card anim d4" style="margin-top:20px">
         <div class="card-title" style="margin-bottom:4px">
           <div class="card-title-bar"></div>
-          Curva Física × Financeira — Mai/25 a Abr/26
+          Curva Física × Financeira — % Realizado vs % Orçamento Executado
           <div style="margin-left:auto;display:flex;gap:6px">
             <button class="filter-btn active" id="g1-all" onclick="g1Filter('all')">Todo o projeto</button>
             <button class="filter-btn" id="g1-6m" onclick="g1Filter('6m')">Últimos 6 meses</button>
           </div>
         </div>
         <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--text-secondary)">
-          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:24px;height:3px;background:#0057B8;border-radius:2px"></span>Físico Realizado</span>
-          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:24px;height:3px;background:#F47920;border-radius:2px"></span>Financeiro Realizado (R$M)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:24px;height:3px;background:#0057B8;border-radius:2px"></span>Físico Realizado (%)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:24px;height:3px;background:#F47920;border-radius:2px"></span>Financeiro Executado (% do orçamento)</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:16px;height:10px;background:#FEF08A;border-radius:2px;opacity:0.8"></span>Financeiro &gt; Físico (alerta)</span>
           <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:20px;height:2px;background:#EF4444;border-style:dashed"></span>Mês atual</span>
-          <span style="margin-left:auto;color:var(--text-muted)">Eixo esq: % físico &nbsp;|&nbsp; Eixo dir: R$M financeiro</span>
+          <span style="margin-left:auto;color:var(--text-muted)">Eixo único: % — Financeiro = pagamentos acumulados / R$ 7,8M total</span>
         </div>
         <div style="overflow-x:auto" id="g1wrap">
           <svg id="g1svg" width="100%" viewBox="0 0 620 240" style="display:block;background:#F8FBFF;border-radius:4px;min-width:500px">
@@ -2306,8 +2307,8 @@ const G1D = {
   labels: ['Mai/25','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan/26','Fev','Mar','Abr'],
   fp: [11,16,22,30,40,51,58,63,75,83,93,93],
   fr: [9,12,17,29,34,46,50,52,57,60,60,62],
-  pp: [0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.33,0.33,0.60,0.60],
-  pr: [0.50,0.41,0.43,0.50,0.56,0.52,0.83,0.49,0.60,0.62,0.15,0.00]
+  pp: [0,0,0,0,0,0,0,0,0,0,0,0],
+  pr: [6,12,17,24,31,37,48,54,62,70,72,72]
 };
 // __G1D_END__
 // __G2D_START__
@@ -2365,84 +2366,83 @@ function drawG1(mode) {
   const N = idxs.length;
   const lbl = idxs.map(i => G1D.labels[i]);
   const fr  = idxs.map(i => G1D.fr[i]);
-  const pr  = idxs.map(i => G1D.pr[i]);
+  const fin = idxs.map(i => G1D.pr[i]);
 
-  const W=660, H=260, PL=55, PR=65, PT=20, PB=40;
-  const CW = W-PL-PR, CH = H-PT-PB;
-
+  const W=660, H=260, PL=55, PR=20, PT=20, PB=40;
+  const CW=W-PL-PR, CH=H-PT-PB;
   const xP  = i => PL + (N===1 ? CW/2 : i*CW/(N-1));
-  const yFr = v => PT + CH - v*(CH/100);
-  const maxPr = Math.max(...pr, 0.9);
-  const scaleR = Math.ceil(maxPr*10)/10;
-  const yPr = v => PT + CH - v*(CH/scaleR);
+  const yV  = v => PT + CH - v*(CH/100);
+  const yBase = PT+CH;
 
   function smoothPath(pts) {
     if (pts.length < 2) return '';
     let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
     for (let i=1; i<pts.length; i++) {
-      const prev = pts[i-1], curr = pts[i];
-      const cpx = (prev[0]+curr[0])/2;
-      d += ` C${cpx.toFixed(1)},${prev[1].toFixed(1)} ${cpx.toFixed(1)},${curr[1].toFixed(1)} ${curr[0].toFixed(1)},${curr[1].toFixed(1)}`;
+      const p=pts[i-1], c=pts[i];
+      const cpx=(p[0]+c[0])/2;
+      d += ` C${cpx.toFixed(1)},${p[1].toFixed(1)} ${cpx.toFixed(1)},${c[1].toFixed(1)} ${c[0].toFixed(1)},${c[1].toFixed(1)}`;
     }
     return d;
   }
 
-  function fillArea(pts, yBase) {
-    if (!pts.length) return '';
-    const p = smoothPath(pts);
-    return p + ` L${pts[pts.length-1][0].toFixed(1)},${yBase} L${pts[0][0].toFixed(1)},${yBase} Z`;
+  function fillArea(pts) {
+    return smoothPath(pts)+` L${pts[pts.length-1][0].toFixed(1)},${yBase} L${pts[0][0].toFixed(1)},${yBase} Z`;
   }
 
-  const frPts = fr.map((v,i) => [xP(i), yFr(v)]);
-  const prPts = pr.map((v,i) => [xP(i), yPr(v)]);
-  const yBase = PT+CH;
+  const frPts  = fr.map((v,i)  => [xP(i), yV(v)]);
+  const finPts = fin.map((v,i) => [xP(i), yV(v)]);
+
+  function alertZone(frPts, finPts) {
+    let zones = '';
+    for (let i=0; i<frPts.length-1; i++) {
+      const frY1=frPts[i][1], frY2=frPts[i+1][1];
+      const fnY1=finPts[i][1], fnY2=finPts[i+1][1];
+      if (fnY1 < frY1 || fnY2 < frY2) {
+        const x1=frPts[i][0], x2=frPts[i+1][0];
+        zones += `<polygon points="${x1},${Math.min(frY1,fnY1)} ${x2},${Math.min(frY2,fnY2)} ${x2},${Math.max(frY2,fnY2)} ${x1},${Math.max(frY1,fnY1)}" fill="#FEF08A" opacity="0.5"/>`;
+      }
+    }
+    return zones;
+  }
 
   const now = new Date();
-  const mesesAbbr = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  const curIdx = lbl.findIndex(l => l.includes(mesesAbbr[now.getMonth()]));
+  const mesesAbbr=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const curIdx = lbl.findIndex(l=>l.includes(mesesAbbr[now.getMonth()]));
   const curX = curIdx >= 0 ? xP(curIdx) : -1;
 
   const yTicks = [0,20,40,60,80,100];
-  const gridLines = yTicks.map(v =>
-    `<line x1="${PL}" y1="${yFr(v).toFixed(1)}" x2="${PL+CW}" y2="${yFr(v).toFixed(1)}" stroke="#E8EEF4" stroke-width="1"/>`
+  const gridLines = yTicks.map(v=>
+    `<line x1="${PL}" y1="${yV(v).toFixed(1)}" x2="${PL+CW}" y2="${yV(v).toFixed(1)}" stroke="#E8EEF4" stroke-width="1"/>`
   ).join('');
-
-  const yLabels = yTicks.map(v =>
-    `<text x="${PL-8}" y="${(yFr(v)+4).toFixed(1)}" text-anchor="end" font-family="Manrope,sans-serif" font-size="10" fill="#94A3B8">${v}%</text>`
+  const yLabels = yTicks.map(v=>
+    `<text x="${PL-8}" y="${(yV(v)+4).toFixed(1)}" text-anchor="end" font-family="Manrope,sans-serif" font-size="10" fill="#94A3B8">${v}%</text>`
   ).join('');
-
-  const rTicks = [0, scaleR*0.25, scaleR*0.5, scaleR*0.75, scaleR];
-  const rLabels = rTicks.map(v =>
-    `<text x="${PL+CW+8}" y="${(yPr(v)+4).toFixed(1)}" font-family="Manrope,sans-serif" font-size="10" fill="#F47920">R$${v.toFixed(1)}M</text>`
-  ).join('');
-
-  const xLabels = lbl.map((l,i) =>
+  const xLabels = lbl.map((l,i)=>
     `<text x="${xP(i).toFixed(1)}" y="${H-8}" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" fill="#64748B">${l}</text>`
   ).join('');
 
-  const frDots = frPts.map(([x,y]) =>
+  const frDots  = frPts.map(([x,y])=>
     `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="#0057B8" stroke="white" stroke-width="2"/>`
   ).join('');
-
-  const prDots = prPts.map(([x,y]) =>
+  const finDots = finPts.map(([x,y])=>
     `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="#F47920" stroke="white" stroke-width="2"/>`
   ).join('');
 
   const colW = N > 1 ? CW/(N-1) : CW;
-  const overlays = frPts.map(([x,y],i) =>
+  const overlays = frPts.map(([x,y],i)=>
     `<rect x="${(x-colW/2).toFixed(1)}" y="${PT}" width="${colW.toFixed(1)}" height="${CH}" fill="transparent" onmouseenter="g1Hover(event,${i})" onmouseleave="hideTip()"/>`
   ).join('');
 
-  window._g1lbl=lbl; window._g1fr=fr; window._g1pr=pr;
+  window._g1lbl=lbl; window._g1fr=fr; window._g1fin=fin;
 
   wrap.innerHTML = `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;font-family:Manrope,sans-serif">
     <defs>
       <linearGradient id="frFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#0057B8" stop-opacity="0.18"/>
+        <stop offset="0%" stop-color="#0057B8" stop-opacity="0.15"/>
         <stop offset="100%" stop-color="#0057B8" stop-opacity="0.02"/>
       </linearGradient>
-      <linearGradient id="prFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F47920" stop-opacity="0.15"/>
+      <linearGradient id="finFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#F47920" stop-opacity="0.12"/>
         <stop offset="100%" stop-color="#F47920" stop-opacity="0.01"/>
       </linearGradient>
     </defs>
@@ -2450,27 +2450,33 @@ function drawG1(mode) {
     ${gridLines}
     <line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+CH}" stroke="#DDE4EE" stroke-width="1"/>
     <line x1="${PL}" y1="${PT+CH}" x2="${PL+CW}" y2="${PT+CH}" stroke="#DDE4EE" stroke-width="1"/>
-    ${curX>0 ? `<line x1="${curX.toFixed(1)}" y1="${PT}" x2="${curX.toFixed(1)}" y2="${PT+CH}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="6 3"/>
-    <text x="${curX.toFixed(1)}" y="${PT-6}" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#EF4444" font-weight="700">Hoje</text>` : ''}
-    <path d="${fillArea(frPts, yBase)}" fill="url(#frFill)"/>
-    <path d="${fillArea(prPts, yBase)}" fill="url(#prFill)"/>
-    <path d="${smoothPath(frPts)}" fill="none" stroke="#0057B8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <path d="${smoothPath(prPts)}" fill="none" stroke="#F47920" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    ${frDots}${prDots}
-    ${yLabels}${rLabels}${xLabels}
+    ${curX>0?`<line x1="${curX.toFixed(1)}" y1="${PT}" x2="${curX.toFixed(1)}" y2="${PT+CH}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="6 3"/>
+    <text x="${curX.toFixed(1)}" y="${PT-6}" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#EF4444" font-weight="700">Hoje</text>`:''}
+    ${alertZone(frPts, finPts)}
+    <path d="${fillArea(frPts)}" fill="url(#frFill)"/>
+    <path d="${fillArea(finPts)}" fill="url(#finFill)"/>
+    <path d="${smoothPath(frPts)}" fill="none" stroke="#0057B8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="${smoothPath(finPts)}" fill="none" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+    ${frDots}${finDots}
+    ${yLabels}${xLabels}
     ${overlays}
   </svg>`;
 }
 function g1Hover(e, i) {
-  const l=window._g1lbl, fr=window._g1fr, pr=window._g1pr;
+  const l=window._g1lbl, fr=window._g1fr, fin=window._g1fin;
   if (!l) return;
+  const dev = fin[i] - fr[i];
+  const dCol = dev > 0 ? '#FCA5A5' : '#6EE7B7';
+  const dTxt = dev > 0 ? '⚠ Financeiro adiantado' : '✓ Execução saudável';
   showTip(e, `<div style="font-size:11px;font-weight:800;color:white;margin-bottom:8px;
     padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.2)">${l[i]}</div>
     <div style="display:grid;grid-template-columns:auto auto;gap:4px 14px;font-size:11px">
       <span style="color:#8AB4D4">Físico Realizado:</span>
       <span style="color:white;font-weight:700">${fr[i]}%</span>
-      <span style="color:#F8B86A">Fin. Realizado:</span>
-      <span style="color:white;font-weight:700">R$${pr[i]}M</span>
+      <span style="color:#F8B86A">Financeiro Exec.:</span>
+      <span style="color:white;font-weight:700">${fin[i]}%</span>
+      <span style="color:#94A3B8">Desvio:</span>
+      <span style="color:${dCol};font-weight:700">${dev>0?'+':''}${dev}% — ${dTxt}</span>
     </div>`);
 }
 
