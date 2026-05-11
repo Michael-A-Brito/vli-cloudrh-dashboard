@@ -1230,22 +1230,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <svg width="100%" height="220" viewBox="0 0 300 220" style="display:block">
               <!-- concluidos -->
               <rect x="0" y="20" width="70" height="54" rx="8" fill="var(--green-bg)" stroke="var(--green)" stroke-width="1.5"/>
-              <text x="35" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--green)">2</text>
+              <text id="mod-concluidos" x="35" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--green)">2</text>
               <text x="35" y="62" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" font-weight="700" fill="var(--green)">CONCLUÍDOS</text>
               <!-- atenção -->
               <rect x="80" y="20" width="70" height="54" rx="8" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="1.5"/>
-              <text x="115" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--amber)">4</text>
+              <text id="mod-atencao" x="115" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--amber)">4</text>
               <text x="115" y="62" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" font-weight="700" fill="var(--amber)">ATENÇÃO</text>
               <!-- critico -->
               <rect x="160" y="20" width="70" height="54" rx="8" fill="var(--red-bg)" stroke="var(--red)" stroke-width="1.5"/>
-              <text x="195" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--red)">4</text>
+              <text id="mod-criticos" x="195" y="44" text-anchor="middle" font-family="Manrope,sans-serif" font-size="22" font-weight="800" fill="var(--red)">4</text>
               <text x="195" y="62" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" font-weight="700" fill="var(--red)">CRÍTICOS</text>
 
               <!-- overall progress arc -->
               <circle cx="150" cy="160" r="50" fill="none" stroke="#E4EAF2" stroke-width="16"/>
               <circle cx="150" cy="160" r="50" fill="none" stroke="var(--blue)" stroke-width="16"
-                stroke-dasharray="196 118" stroke-linecap="round" transform="rotate(-90 150 160)"/>
-              <text x="150" y="155" text-anchor="middle" font-family="Manrope,sans-serif" font-size="18" font-weight="800" fill="#0D1B2E">62%</text>
+                id="mod-arc-geral" stroke-dasharray="196 118" stroke-linecap="round" transform="rotate(-90 150 160)"/>
+              <text id="mod-pct-geral" x="150" y="155" text-anchor="middle" font-family="Manrope,sans-serif" font-size="18" font-weight="800" fill="#0D1B2E">62%</text>
               <text x="150" y="170" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#5A6B82">CONCLUÍDO GERAL</text>
             </svg>
           </div>
@@ -1409,12 +1409,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
               <svg width="160" height="160" viewBox="0 0 160 160" style="display:inline-block">
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--bg)" stroke-width="20"/>
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--blue)" stroke-width="20"
-                  stroke-dasharray="249 153" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+                  id="crono-arc-fr" stroke-dasharray="249 153" stroke-linecap="round" transform="rotate(-90 80 80)"/>
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--blue-light)" stroke-width="20"
-                  stroke-dasharray="153 249" stroke-dashoffset="-249" stroke-linecap="round" transform="rotate(-90 80 80)"/>
-                <text x="80" y="72" text-anchor="middle" font-family="Manrope,sans-serif" font-size="28" font-weight="800" fill="#0D1B2E">62%</text>
+                  id="crono-arc-fp" stroke-dasharray="153 249" stroke-dashoffset="-249" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+                <text id="crono-pct" x="80" y="72" text-anchor="middle" font-family="Manrope,sans-serif" font-size="28" font-weight="800" fill="#0D1B2E">62%</text>
                 <text x="80" y="88" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" fill="#5A6B82">concluído</text>
-                <text x="80" y="103" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#8FA3BC">plan: 93%</text>
+                <text id="crono-plan" x="80" y="103" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#8FA3BC">plan: 93%</text>
               </svg>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
