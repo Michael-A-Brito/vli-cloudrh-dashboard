@@ -876,8 +876,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div class="kpi-grid">
         <div class="kpi-card blue anim d1">
           <div class="kpi-label">Conclusão Geral</div>
-          <div class="kpi-value blue">62%</div>
-          <div class="kpi-sub">Planejado: 93%</div>
+          <div class="kpi-value blue" id="kpi-fr-total">62%</div>
+          <div class="kpi-sub" id="kpi-fp-sub">Planejado: 93%</div>
           <div class="kpi-bg-icon">📊</div>
         </div>
         <div class="kpi-card orange anim d2 task-clickable" onclick="openFinModal('2026')" style="cursor:pointer" title="Ver pagamentos 2026">
@@ -888,8 +888,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         </div>
         <div class="kpi-card green anim d3">
           <div class="kpi-label">Go-Live em</div>
-          <div class="kpi-value green">133 dias</div>
-          <div class="kpi-sub">31 de Agosto de 2026</div>
+          <div class="kpi-value green" id="kpi-golive-dias">133 dias</div>
+          <div class="kpi-sub" id="kpi-golive-sub">31 de Agosto de 2026</div>
           <div class="kpi-bg-icon">🚀</div>
         </div>
         <div class="kpi-card red anim d4">
@@ -3240,6 +3240,7 @@ window.addEventListener('load', () => {
   filterPend('todos');
   // Atualizar KPIs com dados reais das planilhas
   atualizarKpisPendencias();
+  atualizarKpisVisaoGeral();
   // Atualizar datas de sincronização em todos os disclaimers
   atualizarDataSync();
   // Pré-renderizar seção Análise IA
@@ -3335,6 +3336,29 @@ function renderAnaliseIA() {
       </div>`;
     }).join('');
   }
+}
+
+
+// ═══════════════════════════════════════════════
+// KPIs DINÂMICOS — Visão Geral (fr/fp/golive)
+// ═══════════════════════════════════════════════
+function atualizarKpisVisaoGeral() {
+  var fr = typeof window.__fr_total !== 'undefined' ? window.__fr_total : 62;
+  var fp = typeof window.__fp_total !== 'undefined' ? window.__fp_total : 93;
+
+  var elFr = document.getElementById('kpi-fr-total');
+  if (elFr) elFr.textContent = fr + '%';
+
+  var elFp = document.getElementById('kpi-fp-sub');
+  if (elFp) elFp.textContent = 'Planejado: ' + fp + '%';
+
+  var goLive = new Date('2026-08-31T00:00:00');
+  var hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  var dias = Math.ceil((goLive - hoje) / 86400000);
+
+  var elD = document.getElementById('kpi-golive-dias');
+  if (elD) elD.textContent = dias > 0 ? dias + ' dias' : 'Go-Live!';
 }
 
 function exportarSync() {
