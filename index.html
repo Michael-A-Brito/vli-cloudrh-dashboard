@@ -2975,44 +2975,60 @@ function openFinModal(mode) {
 // DATA DE SINCRONIZAÇÃO — todos os disclaimers
 // ═══════════════════════════════════════════════
 function atualizarDataSync() {
-  const els = document.querySelectorAll('.sync-date');
-  if (!els.length) return;
-  const sidebarEl = document.getElementById('sidebar-footer-date');
-  if (!sidebarEl) return;
-  const dataAtual = sidebarEl.textContent.trim();
-  if (!dataAtual) return;
-  const meses = {
-    janeiro:'01', fevereiro:'02', março:'03', abril:'04',
-    maio:'05', junho:'06', julho:'07', agosto:'08',
-    setembro:'09', outubro:'10', novembro:'11', dezembro:'12'
-  };
-  const parts = dataAtual.toLowerCase().split(' de ');
-  if (parts.length === 3) {
-    const mes = meses[parts[1]] || '??';
-    const dataFmt = parts[0].padStart(2,'0') + '/' + mes + '/' + parts[2];
-    els.forEach(el => el.textContent = dataFmt);
-    // Atualizar data no cabeçalho (topbar-subtitle)
-    const headerDate = document.getElementById('header-update-date');
-    if (headerDate) headerDate.textContent = dataFmt;
-    // Atualizar data do status-pill (canto direito do cabeçalho)
-    const pillDate = document.getElementById('pill-date');
-    if (pillDate) {
-      const mesesAbrev = {
-        '01':'Jan','02':'Fev','03':'Mar','04':'Abr',
-        '05':'Mai','06':'Jun','07':'Jul','08':'Ago',
-        '09':'Set','10':'Out','11':'Nov','12':'Dez'
-      };
-      const p = dataFmt.split('/');
-      if (p.length === 3) {
-        pillDate.textContent = p[0] + ' ' + (mesesAbrev[p[1]] || p[1]) + ' ' + p[2];
+  var els = document.querySelectorAll('.sync-date');
+  var mesesAbrevInv = {'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun','07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
+  var mesesLong = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var dataFmt = '';
+
+  // Fonte 1: data do pipeline injetada via __PEND_SYNC ou __CRONO_SYNC
+  var syncSrc = window.__PEND_SYNC || window.__CRONO_SYNC || window.__FIN_SYNC;
+  if (syncSrc && syncSrc.gerado_em) {
+    var d = new Date(syncSrc.gerado_em);
+    if (!isNaN(d)) {
+      var dd = String(d.getDate()).padStart(2,'0');
+      var mm = String(d.getMonth()+1).padStart(2,'0');
+      dataFmt = dd + '/' + mm + '/' + d.getFullYear();
+    }
+  }
+
+  // Fonte 2: fallback — sidebar-footer-date
+  if (!dataFmt) {
+    var sEl = document.getElementById('sidebar-footer-date');
+    if (sEl) {
+      var txt = sEl.textContent.trim().toLowerCase();
+      var meses = {janeiro:'01',fevereiro:'02','março':'03',abril:'04',maio:'05',junho:'06',julho:'07',agosto:'08',setembro:'09',outubro:'10',novembro:'11',dezembro:'12'};
+      var parts = txt.split(' de ');
+      if (parts.length === 3) {
+        var mes = meses[parts[1]] || '??';
+        dataFmt = String(parseInt(parts[0])).padStart(2,'0') + '/' + mes + '/' + parts[2];
       }
     }
   }
+
+  if (!dataFmt) return;
+
+  // Atualizar todos os .sync-date
+  els.forEach(function(el){ el.textContent = dataFmt; });
+
+  // Atualizar header-update-date
+  var hEl = document.getElementById('header-update-date');
+  if (hEl) hEl.textContent = dataFmt;
+
+  // Atualizar pill-date
+  var pEl = document.getElementById('pill-date');
+  if (pEl) {
+    var p = dataFmt.split('/');
+    if (p.length === 3) pEl.textContent = p[0] + ' ' + (mesesAbrevInv[p[1]] || p[1]) + ' ' + p[2];
+  }
+
+  // Atualizar sidebar-footer-date com data longa
+  var sfEl = document.getElementById('sidebar-footer-date');
+  if (sfEl) {
+    var p2 = dataFmt.split('/');
+    if (p2.length === 3) sfEl.textContent = parseInt(p2[0]) + ' de ' + mesesLong[parseInt(p2[1])-1] + ' de ' + p2[2];
+  }
 }
 
-// ═══════════════════════════════════════════════
-// KPIs DINÂMICOS — pendências
-// ═══════════════════════════════════════════════
 function atualizarKpisPendencias() {
   const total     = PENDENCIAS.length + PENDENCIAS_OK.length;
   const atrasadas = PENDENCIAS.filter(p => p.status === 'Atrasado').length;
