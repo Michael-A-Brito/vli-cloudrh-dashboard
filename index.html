@@ -3241,6 +3241,10 @@ window.addEventListener('load', () => {
   // Atualizar KPIs com dados reais das planilhas
   atualizarKpisPendencias();
   atualizarKpisVisaoGeral();
+  atualizarCronoDonut();
+  renderDistribuicao();
+  atualizarVisaoStatus();
+  atualizarAlertasCriticos();
   // Atualizar datas de sincronização em todos os disclaimers
   atualizarDataSync();
   // Pré-renderizar seção Análise IA
@@ -3359,6 +3363,90 @@ function atualizarKpisVisaoGeral() {
 
   var elD = document.getElementById('kpi-golive-dias');
   if (elD) elD.textContent = dias > 0 ? dias + ' dias' : 'Go-Live!';
+}
+
+
+function atualizarCronoDonut() {
+  var fr = typeof window.__fr_total !== 'undefined' ? window.__fr_total : 62;
+  var fp = typeof window.__fp_total !== 'undefined' ? window.__fp_total : 93;
+  var circ = 402.1;
+  var frDash = (fr / 100 * circ).toFixed(1);
+  var restDash = (circ - frDash).toFixed(1);
+
+  var el = document.getElementById('crono-pct');
+  if (el) el.textContent = fr + '%';
+  var el2 = document.getElementById('crono-plan');
+  if (el2) el2.textContent = 'plan: ' + fp + '%';
+  var arc = document.getElementById('crono-arc-fr');
+  if (arc) arc.setAttribute('stroke-dasharray', frDash + ' ' + restDash);
+  var arcBg = document.getElementById('crono-arc-fp');
+  if (arcBg) { arcBg.setAttribute('stroke-dasharray', restDash + ' ' + frDash); arcBg.setAttribute('stroke-dashoffset', '-' + frDash); }
+}
+
+function renderDistribuicao() {
+  var container = document.getElementById('dist-status-container');
+  if (!container) return;
+  var pends = typeof PENDENCIAS !== 'undefined' ? PENDENCIAS : [];
+  var ok    = typeof PENDENCIAS_OK !== 'undefined' ? PENDENCIAS_OK : [];
+  var total = pends.length + ok.length;
+  if (total === 0) return;
+
+  var concluidas = ok.length;
+  var atrasadas  = pends.filter(function(p){ return p.status === 'Atrasado'; }).length;
+  var emAberto   = total - concluidas - atrasadas;
+  var pctC = Math.round(concluidas / total * 100);
+  var pctA = Math.round(atrasadas  / total * 100);
+  var pctE = 100 - pctC - pctA;
+  var W = 280;
+  var wC = (concluidas / total * W).toFixed(1);
+  var wE = (emAberto   / total * W).toFixed(1);
+  var wA = (atrasadas  / total * W).toFixed(1);
+  var xE = parseFloat(wC);
+  var xA = xE + parseFloat(wE);
+  var circ44 = 276.5;
+  var dashC = (pctC / 100 * circ44).toFixed(1);
+  var dashR = (circ44 - dashC).toFixed(1);
+
+  container.innerHTML =
+    '<svg width="100%" height="200" viewBox="0 0 280 200" style="display:block">' +
+    '<text x="0" y="30" font-family="Manrope,sans-serif" font-size="10" fill="#8FA3BC" font-weight="700">DISTRIBUIÇÃO GERAL</text>' +
+    '<rect x="0" y="38" width="' + wC + '" height="22" rx="4" fill="var(--green)"/>' +
+    '<rect x="' + xE + '" y="38" width="' + wE + '" height="22" rx="0" fill="var(--amber)"/>' +
+    '<rect x="' + xA + '" y="38" width="' + wA + '" height="22" rx="4" fill="var(--red)"/>' +
+    '<text x="' + (wC/2).toFixed(0) + '" y="53" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="700" fill="#fff">' + concluidas + ' concluídas</text>' +
+    '<circle cx="6" cy="90" r="5" fill="var(--green)"/>' +
+    '<text x="16" y="94" font-family="Manrope,sans-serif" font-size="11" fill="#0D1B2E">Concluídas — <tspan font-weight="800">' + concluidas + '</tspan> (' + pctC + '%)</text>' +
+    '<circle cx="6" cy="112" r="5" fill="var(--amber)"/>' +
+    '<text x="16" y="116" font-family="Manrope,sans-serif" font-size="11" fill="#0D1B2E">Em aberto — <tspan font-weight="800">' + emAberto + '</tspan> (' + pctE + '%)</text>' +
+    '<circle cx="6" cy="134" r="5" fill="var(--red)"/>' +
+    '<text x="16" y="138" font-family="Manrope,sans-serif" font-size="11" fill="#0D1B2E">Atrasadas — <tspan font-weight="800">' + atrasadas + '</tspan> (' + pctA + '%)</text>' +
+    '<circle cx="230" cy="130" r="44" fill="none" stroke="#E4EAF2" stroke-width="14"/>' +
+    '<circle cx="230" cy="130" r="44" fill="none" stroke="var(--green)" stroke-width="14" stroke-dasharray="' + dashC + ' ' + dashR + '" stroke-linecap="round" transform="rotate(-90 230 130)"/>' +
+    '<text x="230" y="126" text-anchor="middle" font-family="Manrope,sans-serif" font-size="14" font-weight="800" fill="#0D1B2E">' + pctC + '%</text>' +
+    '<text x="230" y="140" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" fill="#5A6B82">conclusão</text>' +
+    '</svg>';
+}
+
+function atualizarVisaoStatus() {
+  var fr = typeof window.__fr_total !== 'undefined' ? window.__fr_total : 62;
+  var circ = 314.2;
+  var dash = (fr / 100 * circ).toFixed(1);
+  var rest = (circ - dash).toFixed(1);
+  var pctEl = document.getElementById('mod-pct-geral');
+  if (pctEl) pctEl.textContent = fr + '%';
+  var arcEl = document.getElementById('mod-arc-geral');
+  if (arcEl) arcEl.setAttribute('stroke-dasharray', dash + ' ' + rest);
+}
+
+function atualizarAlertasCriticos() {
+  var container = document.getElementById('alertas-criticos-container');
+  if (!container || typeof PENDENCIAS === 'undefined') return;
+  var criticos = PENDENCIAS.filter(function(p){ return p.prioridade === 'Crítico'; }).slice(0, 5);
+  if (criticos.length === 0) { container.innerHTML = '<div style="color:var(--green);font-size:12px;padding:8px 0">✅ Sem alertas críticos no momento</div>'; return; }
+  container.innerHTML = criticos.map(function(p) {
+    var cls = p.status === 'Atrasado' ? '' : ' amber';
+    return '<div class="issue-card' + cls + '"><div class="issue-title">' + (p.modulo||'') + ' — ' + (p.titulo||'').slice(0,60) + '</div><div class="issue-detail">' + p.status + (p.prazo ? ' · Prazo: ' + p.prazo : '') + '</div></div>';
+  }).join('');
 }
 
 function exportarSync() {
