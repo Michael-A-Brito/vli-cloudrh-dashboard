@@ -3445,6 +3445,46 @@ function atualizarAlertasCriticos() {
   }).join('');
 }
 
+
+function atualizarKpiFin2026() {
+  // Lê valores injetados pelo pipeline via window.__FIN_SYNC ou variáveis diretas
+  var fin = window.__FIN_SYNC;
+  var efetivado = (fin && fin.efetivado_2026 !== undefined)
+    ? fin.efetivado_2026
+    : (window.__fin_efetivado_2026 || 0);
+  var saldo = (fin && fin.saldo_2026 !== undefined)
+    ? fin.saldo_2026
+    : (window.__fin_saldo_2026 || 4000000);
+  var pct = (fin && fin.pct_2026 !== undefined)
+    ? fin.pct_2026
+    : (window.__fin_pct_2026 || 0);
+
+  if (!efetivado) return;
+
+  // Formatar valores
+  function fmtBRL(v) {
+    if (v >= 1000000) return 'R$ ' + (v/1000000).toFixed(2).replace('.',',') + 'M';
+    return 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+  }
+
+  // Atualizar card KPI financeiro na Visão Geral (card laranja)
+  var kpiVal = document.querySelector('.kpi-card.orange .kpi-value');
+  if (kpiVal) kpiVal.textContent = fmtBRL(efetivado);
+
+  var kpiSub = document.querySelector('.kpi-card.orange .kpi-sub');
+  if (kpiSub) kpiSub.textContent = 'de R$ 4,00M \u00b7 ' + pct + '% consumido';
+
+  // Atualizar cards na seção Financeiro (se existirem)
+  var elReal = document.getElementById('fin-realizado-2026');
+  if (elReal) elReal.textContent = fmtBRL(efetivado);
+
+  var elSaldo = document.getElementById('fin-saldo-2026');
+  if (elSaldo) elSaldo.textContent = fmtBRL(saldo);
+
+  var elPct = document.getElementById('fin-pct-2026');
+  if (elPct) elPct.textContent = pct + '%';
+}
+
 function exportarSync() {
   const hoje = new Date();
   const dateFmt = hoje.toISOString().slice(0, 10);
