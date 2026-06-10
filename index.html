@@ -1684,9 +1684,9 @@ img{max-width:100%;display:block}
       <div class="card anim d4" style="margin-top:20px">
         <div class="card-title" style="margin-bottom:4px">
           <div class="card-title-bar"></div>
-          Curva S — Progresso Acumulado (Mai/25–Abr/26)
+          Curva S — Progresso Acumulado (Mai/25–Mai/26)
           <div style="margin-left:auto;display:flex;gap:6px">
-            <button class="filter-btn active" id="g2-all" onclick="g2Filter('all')">Mai/25–Abr/26</button>
+            <button class="filter-btn active" id="g2-all" onclick="g2Filter('all')">Mai/25–Mai/26</button>
             <button class="filter-btn" id="g2-25" onclick="g2Filter('25')">2025</button>
             <button class="filter-btn" id="g2-26" onclick="g2Filter('26')">2026</button>
           </div>
@@ -1695,13 +1695,13 @@ img{max-width:100%;display:block}
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px" id="g2kpis">
           <div style="padding:10px 14px;background:var(--blue-xlight);border-radius:var(--radius-sm)">
             <div style="font-size:10px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Avanço Planejado</div>
-            <div style="font-size:20px;font-weight:800;color:var(--blue)">91%</div>
-            <div style="font-size:10px;color:var(--text-muted)">acumulado Mai/25–Abr/26</div>
+            <div style="font-size:20px;font-weight:800;color:var(--blue)">99%</div>
+            <div style="font-size:10px;color:var(--text-muted)">acumulado Mai/25–Mai/26</div>
           </div>
           <div style="padding:10px 14px;background:var(--green-bg);border-radius:var(--radius-sm)">
             <div style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Realizado</div>
-            <div style="font-size:20px;font-weight:800;color:var(--green)">62%</div>
-            <div style="font-size:10px;color:var(--text-muted)">acumulado Mai/25–Abr/26</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green)">70%</div>
+            <div style="font-size:10px;color:var(--text-muted)">acumulado Mai/25–Mai/26</div>
           </div>
           <div style="padding:10px 14px;background:var(--red-bg);border-radius:var(--radius-sm)">
             <div style="font-size:10px;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Desvio Acumulado</div>
@@ -2758,10 +2758,34 @@ function renderAcordos() {
 // CHART DATA
 // ═══════════════════════════════════════════════
 // __G1D_START__
+<<<<<<< HEAD
 const G1D = {"labels":["Jun/25","Jul","Ago","Set","Out","Nov","Dez","Jan/26","Fev","Mar","Abr","Mai"],"fp":[11,16,22,30,40,51,58,63,75,83,93,93],"fr":[9,12,17,29,34,46,50,52,57,60,60,70],"pp":[0,0,0,0,0,0,0,0,0,0,0,0],"pr":[0,0,0,0,0,0,0,8,16,17,19,30]};
 // __G1D_END__
 // __G2D_START__
 const G2D = {"labels":["Mai/25","Jun","Jul","Ago","Set","Out","Nov","Dez","Jan/26","Fev","Mar","Abr"],"plan":[11,5,6,8,10,11,7,5,12,8,10,0],"real":[9,61,5,12,5,12,4,2,5,3,0,2]};
+=======
+// Série mensal Mai/25 → Mai/26 (13 meses).
+// fp: % físico planejado acumulado (vem dos reports mensais VLI)
+// fr: % físico realizado acumulado (atualizado pelo pipeline a partir do cronograma)
+// pr: % financeiro executado acumulado (atualizado pelo pipeline a partir do Pagamentos efetivados)
+// pp: não utilizado (zerado)
+const G1D = {
+  labels: ['Mai/25','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan/26','Fev','Mar','Abr','Mai/26'],
+  fp: [11,16,22,30,40,51,58,63,75,83,93,96,99],
+  fr: [9,12,17,29,34,46,50,52,57,60,60,65,70],
+  pp: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+  pr: [6,12,17,24,31,37,48,54,62,70,72,75,78],
+  mes_atual_idx: 12   // índice do mês corrente (Mai/26 = 12) — pipeline usa para escrever fr/pr
+};
+// __G1D_END__
+// __G2D_START__
+// Incrementos mensais (delta) — soma = curva acumulada de G1D
+const G2D = {
+  labels: ['Mai/25','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan/26','Fev','Mar','Abr','Mai/26'],
+  plan: [11,5,6,8,10,11,7,5,12,8,10,3,3],
+  real: [9,3,5,12,5,12,4,2,5,3,0,5,5]
+};
+>>>>>>> 7aa47ce (feat: Curva S com 13 meses (Mai/25-Mai/26) e estrutura preparada para expansao automatica ate Dez/26)
 // __G2D_END__
 
 // ═══════════════════════════════════════════════
@@ -2992,8 +3016,8 @@ function drawG2(mode) {
     `<rect x="${(x-colW/2).toFixed(1)}" y="${PT}" width="${colW.toFixed(1)}" height="${CH}" fill="transparent" onmouseenter="g2Hover(event,${i})" onmouseleave="hideTip()"/>`
   ).join('');
 
-  const fpAcum = typeof window.__fp_total!=='undefined' ? window.__fp_total : 93;
-  const frAcum = typeof window.__fr_total!=='undefined' ? window.__fr_total : 62;
+  const fpAcum = typeof window.__fp_total!=='undefined' ? window.__fp_total : 99;
+  const frAcum = typeof window.__fr_total!=='undefined' ? window.__fr_total : 70;
   const sumDev  = frAcum - fpAcum;
   const g2k=document.getElementById('g2kpis');
   if (g2k) {
@@ -3003,7 +3027,7 @@ function drawG2(mode) {
     const dEl=cards[2].children[1];
     dEl.textContent=(sumDev>=0?'+':'')+sumDev+'%';
     dEl.style.color=sumDev>=0?'var(--green)':'var(--red)';
-    const period=mode==='25'?'Mai/25–Dez/25':mode==='26'?'Jan/26–Abr/26':'Mai/25–Abr/26';
+    const period=mode==='25'?'Mai/25–Dez/25':mode==='26'?'Jan/26–Mai/26':'Mai/25–Mai/26';
     [0,1,2].forEach(j=>{cards[j].children[2].textContent='acum. '+period;});
   }
 
