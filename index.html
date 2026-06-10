@@ -2824,7 +2824,9 @@ function drawG1(mode) {
   g1Mode = mode;
   const wrap = document.getElementById('g1wrap');
   if (!wrap) return;
-  const idxs = mode === '6m' ? [6,7,8,9,10,11] : [0,1,2,3,4,5,6,7,8,9,10,11];
+  // Índices dinâmicos baseados em G1D.labels — adapta-se a qualquer tamanho de série
+  const allIdxs = G1D.labels.map((_, i) => i);
+  const idxs = mode === '6m' ? allIdxs.slice(-6) : allIdxs;
   const N = idxs.length;
   const lbl = idxs.map(i => G1D.labels[i]);
   const fr  = idxs.map(i => G1D.fr[i]);
@@ -2950,7 +2952,11 @@ function drawG2(mode) {
   g2Mode = mode;
   const wrap = document.getElementById('g2wrap');
   if (!wrap) return;
-  const idxs = mode==='25'?[0,1,2,3,4,5,6,7]:mode==='26'?[8,9,10,11]:[0,1,2,3,4,5,6,7,8,9,10,11];
+  // Índices dinâmicos baseados em G1D.labels — adapta-se a qualquer tamanho de série
+  const allIdxs = G1D.labels.map((_, i) => i);
+  const idxs2025 = allIdxs.filter(i => !G1D.labels[i].includes('/26'));        // até Dez/25
+  const idxs2026 = allIdxs.filter(i => G1D.labels[i].includes('/26') || (i >= idxs2025.length && !G1D.labels[i].includes('/25')));
+  const idxs = mode==='25' ? idxs2025 : mode==='26' ? idxs2026 : allIdxs;
   const N = idxs.length;
   const lbl = idxs.map(i=>G2D.labels[i]);
 
