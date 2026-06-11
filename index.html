@@ -1226,6 +1226,8 @@ img{max-width:100%;display:block}
         <!-- Riscos -->
         <div class="card">
           <div class="card-title"><div class="card-title-bar"></div>Riscos Ativos</div>
+          <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo riscos_ativos) -->
+          <div id="ra-lista">
           <div class="issue-card">
             <div class="issue-title">R01 — Benefícios</div>
             <div class="issue-detail">POPs pendentes VLI desde Nov/25 · bloqueia WKFs</div>
@@ -1245,6 +1247,7 @@ img{max-width:100%;display:block}
           <div class="issue-card amber">
             <div class="issue-title">R05 — C&S</div>
             <div class="issue-detail">Bloqueando WKF, Ponto e demais frentes</div>
+          </div>
           </div>
         </div>
       </div>
@@ -1482,12 +1485,54 @@ img{max-width:100%;display:block}
           <!-- radar visual -->
           <div class="card anim d2">
             <div class="card-title"><div class="card-title-bar"></div>Visão por Status</div>
-            <svg width="130" height="130" viewBox="0 0 130 130"><circle cx="65" cy="65" r="50" fill="none" stroke="var(--bg)" stroke-width="18"/><circle cx="65" cy="65" r="50" fill="none" stroke="var(--blue)" stroke-width="18" stroke-dasharray="185.4 128.8" stroke-linecap="round" transform="rotate(-90 65 65)"/><circle cx="65" cy="65" r="50" fill="none" stroke="var(--orange)" stroke-width="18" stroke-dasharray="128.8 185.4" stroke-dashoffset="-185.4" stroke-linecap="round" transform="rotate(-90 65 65)"/><text x="65" y="61" text-anchor="middle" font-family="Manrope,sans-serif" font-size="17" font-weight="800" fill="#0D1B2E">59%</text><text x="65" y="75" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" fill="#5A6B82">consumido</text></svg>
+            <!-- IDs com prefixo vs- são preenchidos por atualizar-dashboard.js (vs_total/vs_concluidos/vs_andamento/vs_aberto/vs_concluido_pct) -->
+            <div style="display:flex;align-items:center;gap:20px">
+              <!-- Coluna esquerda: números por status -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
+                  <div>
+                    <div style="font-size:22px;font-weight:200;color:var(--ink);line-height:1;font-feature-settings:'tnum'" id="vs-concluidos">3</div>
+                    <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:1.2px;margin-top:2px">Concluídos</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0"></div>
+                  <div>
+                    <div style="font-size:22px;font-weight:200;color:var(--ink);line-height:1;font-feature-settings:'tnum'" id="vs-andamento">7</div>
+                    <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:1.2px;margin-top:2px">Em andamento</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--orange);flex-shrink:0"></div>
+                  <div>
+                    <div style="font-size:22px;font-weight:200;color:var(--ink);line-height:1;font-feature-settings:'tnum'" id="vs-aberto">0</div>
+                    <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:1.2px;margin-top:2px">Em aberto</div>
+                  </div>
+                </div>
+                <div style="padding-top:8px;border-top:1px solid var(--border-soft);font-size:10px;font-weight:700;color:var(--ink-4);text-transform:uppercase;letter-spacing:1.2px">
+                  <span id="vs-total">10</span> módulos no total
+                </div>
+              </div>
+              <!-- Coluna direita: donut -->
+              <svg width="130" height="130" viewBox="0 0 130 130" style="flex-shrink:0">
+                <circle cx="65" cy="65" r="50" fill="none" stroke="var(--bg)" stroke-width="18"/>
+                <!-- arcos preenchidos por JS: data-concluidos-pct ajusta o stroke-dasharray -->
+                <circle id="vs-arc-concluidos" cx="65" cy="65" r="50" fill="none" stroke="var(--green)" stroke-width="18"
+                  stroke-dasharray="94 220" stroke-linecap="round" transform="rotate(-90 65 65)"/>
+                <circle id="vs-arc-andamento" cx="65" cy="65" r="50" fill="none" stroke="var(--blue)" stroke-width="18"
+                  stroke-dasharray="220 94" stroke-dashoffset="-94" stroke-linecap="round" transform="rotate(-90 65 65)"/>
+                <text x="65" y="61" text-anchor="middle" font-family="Manrope,sans-serif" font-size="20" font-weight="200" fill="#0D1B2E" id="vs-pct">59%</text>
+                <text x="65" y="76" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" font-weight="700" fill="#5A6B82" letter-spacing="0.5px">CONCLUSÃO</text>
+              </svg>
+            </div>
           </div>
 
           <!-- alerts summary -->
           <div class="card anim d3">
             <div class="card-title"><div class="card-title-bar" style="background:var(--red)"></div>Alertas Críticos</div>
+            <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo alertas_por_frente) -->
+            <div id="ac-lista">
             <div class="issue-card">
               <div class="issue-title">Benefícios — Validação POPs</div>
               <div class="issue-detail">Odontológica, Médica, VA, VR · pendentes desde Nov/25</div>
@@ -1503,6 +1548,7 @@ img{max-width:100%;display:block}
             <div class="issue-card amber">
               <div class="issue-title">Orçamento Pessoal — Plano de Contas</div>
               <div class="issue-detail">Item 78 · Atrasado desde Dez/25</div>
+            </div>
             </div>
           </div>
         </div>
@@ -1640,35 +1686,48 @@ img{max-width:100%;display:block}
         <div class="flex-col">
           <div class="card anim d2">
             <div class="card-title"><div class="card-title-bar"></div>Progresso Geral do Projeto</div>
-            <div style="text-align:center;padding:10px 0">
+            <!-- Donut: stroke-dasharray e textos preenchidos por atualizar-dashboard.js (cronograma.json fr_total/fp_total) -->
+            <div style="text-align:center;padding:10px 0" id="pg-svg-wrap">
               <svg width="160" height="160" viewBox="0 0 160 160" style="display:inline-block">
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--bg)" stroke-width="20"/>
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--blue)" stroke-width="20"
-                  stroke-dasharray="249 153" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+                  stroke-dasharray="249 153" stroke-linecap="round" transform="rotate(-90 80 80)" id="pg-arc-real"/>
                 <circle cx="80" cy="80" r="64" fill="none" stroke="var(--blue-light)" stroke-width="20"
-                  stroke-dasharray="153 249" stroke-dashoffset="-249" stroke-linecap="round" transform="rotate(-90 80 80)"/>
-                <text x="80" y="72" text-anchor="middle" font-family="Manrope,sans-serif" font-size="28" font-weight="800" fill="#0D1B2E">62%</text>
+                  stroke-dasharray="153 249" stroke-dashoffset="-249" stroke-linecap="round" transform="rotate(-90 80 80)" id="pg-arc-gap"/>
+                <text x="80" y="72" text-anchor="middle" font-family="Manrope,sans-serif" font-size="28" font-weight="200" fill="#0D1B2E" id="pg-fr">62%</text>
                 <text x="80" y="88" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" fill="#5A6B82">concluído</text>
-                <text x="80" y="103" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#8FA3BC">plan: 93%</text>
+                <text x="80" y="103" text-anchor="middle" font-family="Manrope,sans-serif" font-size="9" fill="#8FA3BC" id="pg-fp">plan: 99%</text>
               </svg>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
               <div style="text-align:center;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
                 <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Início</div>
-                <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-top:4px">06 Jan 2025</div>
+                <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-top:4px" id="pg-inicio">06 Jan 2025</div>
               </div>
               <div style="text-align:center;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
                 <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Fim Previsto</div>
-                <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-top:4px">06 Nov 2026</div>
+                <div style="font-size:14px;font-weight:800;color:var(--text-primary);margin-top:4px" id="pg-fim">06 Nov 2026</div>
+              </div>
+            </div>
+            <!-- Extra: marcos e etapas concluídas (atualizar-dashboard.js injeta) -->
+            <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px">
+              <div style="padding:8px 10px;background:var(--vli-azul-3);border-radius:var(--radius-sm)">
+                <div style="font-weight:800;color:var(--vli-azul-deep);font-size:16px;font-feature-settings:'tnum'" id="pg-marcos">14/45</div>
+                <div style="font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.8px;font-size:9px;margin-top:2px">marcos aceitos</div>
+              </div>
+              <div style="padding:8px 10px;background:var(--vli-azul-3);border-radius:var(--radius-sm)">
+                <div style="font-weight:800;color:var(--vli-azul-deep);font-size:16px;font-feature-settings:'tnum'" id="pg-etapas">146/322</div>
+                <div style="font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.8px;font-size:9px;margin-top:2px">etapas entregues</div>
               </div>
             </div>
           </div>
 
           <div class="card anim d3">
             <div class="card-title"><div class="card-title-bar" style="background:var(--red)"></div>Riscos ao Cronograma</div>
+            <!-- tbody com id rc-tbody é repreenchido por atualizar-dashboard.js a partir de analise.json (gerar-analise.js / API Claude) -->
             <table class="risk-table">
               <thead><tr><th>ID</th><th>Risco</th><th>Impacto</th></tr></thead>
-              <tbody>
+              <tbody id="rc-tbody">
                 <tr><td class="risk-id">R01</td><td style="font-size:12px">POPs Benefícios · Nov/25</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
                 <tr><td class="risk-id">R02</td><td style="font-size:12px">GEFRE Out→Dez/26</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
                 <tr><td class="risk-id">R03</td><td style="font-size:12px">De×Para Códigos INT</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
@@ -1999,27 +2058,50 @@ img{max-width:100%;display:block}
             <span class="sm-tag pending">SM012 — Migração Rescindidos · R$106k</span>
           </div>
 
-          <div style="margin-top:14px;padding:10px 12px;background:var(--amber-bg);border-radius:var(--radius-sm);font-size:12px;color:var(--amber);font-weight:600">
-            ⏳ R$ 317.673 aguardando aprovação formal
+          <!-- Resumo: total de SMs + valor financeiro (alimentado por SM_DATA / sms.json) -->
+          <div id="sm-resumo" style="margin-top:14px;padding:12px 14px;background:var(--vli-azul-3);border:1px solid var(--vli-azul-2);border-radius:var(--radius-sm);display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div style="display:flex;flex-direction:column">
+              <div style="font-size:10px;font-weight:800;color:var(--vli-azul-deep);letter-spacing:1.2px;text-transform:uppercase">Total de SMs</div>
+              <div style="font-size:22px;font-weight:200;color:var(--vli-azul-deep);line-height:1.1;font-feature-settings:'tnum'" id="sm-total-count">17</div>
+            </div>
+            <div style="width:1px;height:38px;background:var(--vli-azul-2)"></div>
+            <div style="display:flex;flex-direction:column;text-align:right">
+              <div style="font-size:10px;font-weight:800;color:var(--vli-azul-deep);letter-spacing:1.2px;text-transform:uppercase">Valor Total</div>
+              <div style="font-size:22px;font-weight:200;color:var(--vli-azul-deep);line-height:1.1;font-feature-settings:'tnum'" id="sm-total-valor">R$ 1,2M</div>
+            </div>
           </div>
 
           <div class="divider"></div>
-          <div style="font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:10px">Principais Fornecedores</div>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
-            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:6px">
-              <span style="font-weight:600">LG Informática S/A</span><span class="chip blue">Implantação principal</span>
+          <div style="font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline">
+            <span>Principais Fornecedores</span>
+            <span style="font-size:9px;font-weight:600;color:var(--ink-4);letter-spacing:.5px;text-transform:uppercase">valor pago · % orçamento</span>
+          </div>
+          <!-- IDs ff-* preenchidos por atualizar-dashboard.js a partir de financeiro.json (acumulado 2025+2026) -->
+          <div id="fornecedores-list" style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+            <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:6px">
+              <span style="font-weight:600">LG Informática S/A</span>
+              <span style="font-weight:800;color:var(--vli-azul-deep);font-feature-settings:'tnum'" id="ff-lg-val">R$ 3,33M</span>
+              <span style="font-size:10px;font-weight:700;color:var(--ink-3);min-width:42px;text-align:right;font-feature-settings:'tnum'" id="ff-lg-pct">83%</span>
             </div>
-            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:6px">
-              <span style="font-weight:600">Squadra Tecnologia</span><span class="chip blue">Arquitetura</span>
+            <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:6px">
+              <span style="font-weight:600">Squadra Tecnologia</span>
+              <span style="font-weight:800;color:var(--vli-azul-deep);font-feature-settings:'tnum'" id="ff-sq-val">R$ 434k</span>
+              <span style="font-size:10px;font-weight:700;color:var(--ink-3);min-width:42px;text-align:right;font-feature-settings:'tnum'" id="ff-sq-pct">11%</span>
             </div>
-            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:6px">
-              <span style="font-weight:600">Framework</span><span class="chip blue">Desenvolvimento</span>
+            <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:6px">
+              <span style="font-weight:600">Framework Tecnologia</span>
+              <span style="font-weight:800;color:var(--vli-azul-deep);font-feature-settings:'tnum'" id="ff-fw-val">R$ 16k</span>
+              <span style="font-size:10px;font-weight:700;color:var(--ink-3);min-width:42px;text-align:right;font-feature-settings:'tnum'" id="ff-fw-pct">0,4%</span>
             </div>
-            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:6px">
-              <span style="font-weight:600">Enterprise Services Brasil</span><span class="chip blue">Serviços</span>
+            <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:6px">
+              <span style="font-weight:600">Enterprise Services Brasil</span>
+              <span style="font-weight:800;color:var(--vli-azul-deep);font-feature-settings:'tnum'" id="ff-es-val">R$ 0</span>
+              <span style="font-size:10px;font-weight:700;color:var(--ink-3);min-width:42px;text-align:right;font-feature-settings:'tnum'" id="ff-es-pct">—</span>
             </div>
-            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:6px">
-              <span style="font-weight:600">Brasoftware Informática Ltda</span><span class="chip blue">Licenciamento</span>
+            <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:6px">
+              <span style="font-weight:600">Brasoftware Informática</span>
+              <span style="font-weight:800;color:var(--vli-azul-deep);font-feature-settings:'tnum'" id="ff-bs-val">R$ 0</span>
+              <span style="font-size:10px;font-weight:700;color:var(--ink-3);min-width:42px;text-align:right;font-feature-settings:'tnum'" id="ff-bs-pct">—</span>
             </div>
           </div>
         </div>
