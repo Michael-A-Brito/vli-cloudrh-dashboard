@@ -1245,11 +1245,11 @@ img{max-width:100%;display:block}
           <div class="card-title"><div class="card-title-bar"></div>Riscos Ativos</div>
           <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo riscos_ativos) -->
           <div id="ra-lista">
-<div class="issue-card"><div class="issue-title">R01 — HCM - Bloqueio Total de Execução Orçamentária</div><div class="issue-detail">Ausência de execução financeira pode indicar problemas contratuais, aprovações pendentes ou restrições orçamentárias que paralisam aquisições e contratações essenciais</div></div>
-<div class="issue-card"><div class="issue-title">R02 — Migração - Complexidade Técnica Subestimada</div><div class="issue-detail">Desvio de 29 pontos sugere que a migração de dados legados e integração com sistemas VLI apresenta desafios técnicos não mapeados no planejamento original</div></div>
-<div class="issue-card"><div class="issue-title">R03 — Gen.te Nuvem - Dependência de Fornecedor Externo</div><div class="issue-detail">Possível atraso ou indisponibilidade de recursos especializados na plataforma Gen.te impactando módulos de folha, ponto e gestão de talentos</div></div>
-<div class="issue-card"><div class="issue-title">R04 — Integração - Interfaces com Sistemas Legados VLI</div><div class="issue-detail">Conexões com sistemas de logística, operações ferroviárias e ERP podem apresentar incompatibilidades não resolvidas comprometendo testes integrados</div></div>
-<div class="issue-card amber"><div class="issue-title">R05 — Dados - Qualidade e Volume de Carga Histórica</div><div class="issue-detail">Migração de base histórica de colaboradores, contratos e eventos de RH pode enfrentar problemas de qualidade, duplicidades e validações regulatórias</div></div>
+<div class="issue-card"><div class="issue-title">R01 — Ponto Eletrônico — GEFRE pós Go-Live sem contingência validada</div><div class="issue-detail">Entrega GEFRE Dez/26 (3 meses após 31/08) com módulo em 55% exige contingência manual Set-Out/26 não documentada; bloqueia apuração jornada e integração com Folha de Pagamento.</div></div>
+<div class="issue-card"><div class="issue-title">R02 — Workflow — Personalizados 3-6 com datas vencidas e alto volume horas</div><div class="issue-detail">Validação DET Rescisão (reenviado 01/04), Reembolso Educacional e Babá atrasadas; Pers. 6, 7, 9, 10, 12 consomem alto volume de horas comprometendo entrega até 31/08.</div></div>
+<div class="issue-card"><div class="issue-title">R03 — Benefícios — POPs Bradesco aguardando VLI desde Nov/25</div><div class="issue-detail"></div></div>
+<div class="issue-card"><div class="issue-title">R04 — Integrações — De×Para de Códigos indefinido com 13 pendências</div><div class="issue-detail">Módulo em 26% lidera atrasos (13 itens); De×Para VLI em definição impede avanço APIs e pentest Nov/26; risco de integração tardia sistemas legados e fornecedores.</div></div>
+<div class="issue-card"><div class="issue-title">R05 — Cargos e Salários — bloqueio de WKFs e Ponto Eletrônico</div><div class="issue-detail">Módulo em 76% bloqueia entrega de Workflows dependentes e configurações de Ponto Eletrônico; atraso em estrutura organizacional impacta regras de apuração e aprovação.</div></div>
           </div>
         </div>
       </div>
@@ -1526,11 +1526,12 @@ img{max-width:100%;display:block}
             <div class="card-title"><div class="card-title-bar" style="background:var(--red)"></div>Alertas Críticos</div>
             <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo alertas_por_frente) -->
             <div id="ac-lista">
-<div class="issue-card"><div class="issue-title">Folha de Pagamento</div><div class="issue-detail">Parametrizações de benefícios e encargos do setor logístico podem estar incompletas, impactando cálculos</div></div>
-<div class="issue-card amber"><div class="issue-title">Gestão de Ponto e Jornada</div><div class="issue-detail">Integração com catracas e controle de turnos operacionais ferroviários requer testes em ambiente produtivo</div></div>
-<div class="issue-card amber"><div class="issue-title">Recrutamento e Seleção</div><div class="issue-detail">Migração de processos seletivos ativos e bancos de currículos pode enfrentar perda de dados históricos</div></div>
-<div class="issue-card amber"><div class="issue-title">Treinamento e Capacitação</div><div class="issue-detail">Usuários finais da VLI ainda não receberam capacitação adequada na nova plataforma Gen.te Nuvem</div></div>
+<div class="issue-card"><div class="issue-title">Ponto Eletrônico</div><div class="issue-detail">GEFRE reprogramado Dez/26 (pós Go-Live) aguarda retorno VLI; módulo 55% sem contingência validada para Set-Out/26</div></div>
+<div class="issue-card"><div class="issue-title">Workflow</div><div class="issue-detail">Personalizados 3-6 com datas vencidas; DET Rescisão e Reembolsos aguardam validação VLI desde reenvia 01/04</div></div>
+<div class="issue-card amber"><div class="issue-title">Benefícios</div><div class="issue-detail">POPs Bradesco Odontológico, Unimed, Vale Alimentação e Refeição pendentes desde Nov/25 bloqueiam WKFs</div></div>
+<div class="issue-card amber"><div class="issue-title">Integrações</div><div class="issue-detail">De×Para de Códigos VLI em definição; 13 pendências atrasadas impedem avanço APIs e pentest Nov/26</div></div>
             </div>
+          </div>
           </div>
           </div>
         </div>
@@ -1710,11 +1711,11 @@ img{max-width:100%;display:block}
             <table class="risk-table">
               <thead><tr><th>ID</th><th>Risco</th><th>Impacto</th></tr></thead>
               <tbody id="rc-tbody">
-<tr><td class="risk-id">R01</td><td style="font-size:12px">Atraso na conclusão dos 29% restantes do projeto</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-<tr><td class="risk-id">R02</td><td style="font-size:12px">Ciclos de teste integrado e UAT insuficientes antes do Go-Live</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-<tr><td class="risk-id">R03</td><td style="font-size:12px">Dependência de janelas de homologação da VLI Logística</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
-<tr><td class="risk-id">R04</td><td style="font-size:12px">Atraso na liberação de ambientes de pré-produção na nuvem</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
-<tr><td class="risk-id">R05</td><td style="font-size:12px">Reprogramação de Go-Live por indisponibilidade de operação assistida</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R01</td><td style="font-size:12px">Ponto Eletrônico GEFRE Dez/26: 3 meses após Go-Live 31/08 sem Ponto operacional</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R02</td><td style="font-size:12px">Workflow Personalizados 3-6 vencidos: validação DET atrasada bloqueia entrega até 31/08</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R03</td><td style="font-size:12px">Benefícios POPs parados 6 meses: WKFs dependentes não entregues sem retorno VLI</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R04</td><td style="font-size:12px">Integrações De×Para indefinido: APIs e pentest Nov/26 em risco com módulo 26%</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R05</td><td style="font-size:12px">Cargos e Salários 76%: dependências WKFs e Ponto bloqueadas até estrutura finalizada</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
               </tbody>
             </table>
           </div>
