@@ -3739,9 +3739,13 @@ window.addEventListener('load', () => {
   atualizarKpisVisaoGeral();
   // Atualizar datas de sincronização em todos os disclaimers
   atualizarDataSync();
-  // Pré-renderizar seção Análise IA
-  renderAnaliseIA();
+  // Pré-renderizar seção Análise IA (no-op: conteúdo é injetado server-side pelo pipeline)
+  if (typeof renderAnaliseIA === 'function') renderAnaliseIA();
 });
+
+// Stub defensivo: a Análise IA é populada pelo pipeline atualizar-dashboard.js
+// a partir de output/analise.json. Não há renderização cliente necessária.
+function renderAnaliseIA() { /* no-op */ }
 
 function exportarSync() {
   const hoje = new Date();
