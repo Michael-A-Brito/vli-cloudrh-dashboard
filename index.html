@@ -1245,26 +1245,11 @@ img{max-width:100%;display:block}
           <div class="card-title"><div class="card-title-bar"></div>Riscos Ativos</div>
           <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo riscos_ativos) -->
           <div id="ra-lista">
-          <div class="issue-card">
-            <div class="issue-title">R01 — Benefícios</div>
-            <div class="issue-detail">POPs pendentes VLI desde Nov/25 · bloqueia WKFs</div>
-          </div>
-          <div class="issue-card">
-            <div class="issue-title">R02 — Ponto / GEFRE</div>
-            <div class="issue-detail">Entrega revisada: Out→Dez/26</div>
-          </div>
-          <div class="issue-card">
-            <div class="issue-title">R03 — Integrações</div>
-            <div class="issue-detail">De×Para Códigos em definição</div>
-          </div>
-          <div class="issue-card amber">
-            <div class="issue-title">R04 — Workflows</div>
-            <div class="issue-detail">Alto volume horas WKFs Personalizados</div>
-          </div>
-          <div class="issue-card amber">
-            <div class="issue-title">R05 — C&S</div>
-            <div class="issue-detail">Bloqueando WKF, Ponto e demais frentes</div>
-          </div>
+<div class="issue-card"><div class="issue-title">R01 — HCM - Bloqueio Total de Execução Orçamentária</div><div class="issue-detail">Ausência de execução financeira pode indicar problemas contratuais, aprovações pendentes ou restrições orçamentárias que paralisam aquisições e contratações essenciais</div></div>
+<div class="issue-card"><div class="issue-title">R02 — Migração - Complexidade Técnica Subestimada</div><div class="issue-detail">Desvio de 29 pontos sugere que a migração de dados legados e integração com sistemas VLI apresenta desafios técnicos não mapeados no planejamento original</div></div>
+<div class="issue-card"><div class="issue-title">R03 — Gen.te Nuvem - Dependência de Fornecedor Externo</div><div class="issue-detail">Possível atraso ou indisponibilidade de recursos especializados na plataforma Gen.te impactando módulos de folha, ponto e gestão de talentos</div></div>
+<div class="issue-card"><div class="issue-title">R04 — Integração - Interfaces com Sistemas Legados VLI</div><div class="issue-detail">Conexões com sistemas de logística, operações ferroviárias e ERP podem apresentar incompatibilidades não resolvidas comprometendo testes integrados</div></div>
+<div class="issue-card amber"><div class="issue-title">R05 — Dados - Qualidade e Volume de Carga Histórica</div><div class="issue-detail">Migração de base histórica de colaboradores, contratos e eventos de RH pode enfrentar problemas de qualidade, duplicidades e validações regulatórias</div></div>
           </div>
         </div>
       </div>
@@ -1541,23 +1526,12 @@ img{max-width:100%;display:block}
             <div class="card-title"><div class="card-title-bar" style="background:var(--red)"></div>Alertas Críticos</div>
             <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo alertas_por_frente) -->
             <div id="ac-lista">
-            <div class="issue-card">
-              <div class="issue-title">Benefícios — Validação POPs</div>
-              <div class="issue-detail">Odontológica, Médica, VA, VR · pendentes desde Nov/25</div>
+<div class="issue-card"><div class="issue-title">Folha de Pagamento</div><div class="issue-detail">Parametrizações de benefícios e encargos do setor logístico podem estar incompletas, impactando cálculos</div></div>
+<div class="issue-card amber"><div class="issue-title">Gestão de Ponto e Jornada</div><div class="issue-detail">Integração com catracas e controle de turnos operacionais ferroviários requer testes em ambiente produtivo</div></div>
+<div class="issue-card amber"><div class="issue-title">Recrutamento e Seleção</div><div class="issue-detail">Migração de processos seletivos ativos e bancos de currículos pode enfrentar perda de dados históricos</div></div>
+<div class="issue-card amber"><div class="issue-title">Treinamento e Capacitação</div><div class="issue-detail">Usuários finais da VLI ainda não receberam capacitação adequada na nova plataforma Gen.te Nuvem</div></div>
             </div>
-            <div class="issue-card">
-              <div class="issue-title">Integrações — Autenticação APIs</div>
-              <div class="issue-detail">Pentest enviado · aguardando retorno VLI</div>
-            </div>
-            <div class="issue-card amber">
-              <div class="issue-title">Folha — Layout Contábil</div>
-              <div class="issue-detail">Validação pendente desde 10/04/2026</div>
-            </div>
-            <div class="issue-card amber">
-              <div class="issue-title">Orçamento Pessoal — Plano de Contas</div>
-              <div class="issue-detail">Item 78 · Atrasado desde Dez/25</div>
-            </div>
-            </div>
+          </div>
           </div>
         </div>
       </div>
@@ -1736,11 +1710,11 @@ img{max-width:100%;display:block}
             <table class="risk-table">
               <thead><tr><th>ID</th><th>Risco</th><th>Impacto</th></tr></thead>
               <tbody id="rc-tbody">
-                <tr><td class="risk-id">R01</td><td style="font-size:12px">POPs Benefícios · Nov/25</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-                <tr><td class="risk-id">R02</td><td style="font-size:12px">GEFRE Out→Dez/26</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-                <tr><td class="risk-id">R03</td><td style="font-size:12px">De×Para Códigos INT</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-                <tr><td class="risk-id">R04</td><td style="font-size:12px">WKFs Personalizados</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
-                <tr><td class="risk-id">R05</td><td style="font-size:12px">C&S bloqueando frentes</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R01</td><td style="font-size:12px">Atraso na conclusão dos 29% restantes do projeto</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R02</td><td style="font-size:12px">Ciclos de teste integrado e UAT insuficientes antes do Go-Live</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R03</td><td style="font-size:12px">Dependência de janelas de homologação da VLI Logística</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R04</td><td style="font-size:12px">Atraso na liberação de ambientes de pré-produção na nuvem</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R05</td><td style="font-size:12px">Reprogramação de Go-Live por indisponibilidade de operação assistida</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
               </tbody>
             </table>
           </div>
