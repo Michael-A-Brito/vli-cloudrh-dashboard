@@ -1265,11 +1265,11 @@ img{max-width:100%;display:block}
           <div class="card-title"><div class="card-title-bar"></div>Riscos Ativos</div>
           <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo riscos_ativos) -->
           <div id="ra-lista">
-<div class="issue-card"><div class="issue-title">R01 — Ponto Eletrônico — GEFRE pós Go-Live sem contingência validada</div><div class="issue-detail">Entrega GEFRE Dez/26 (3 meses após 31/08) com módulo em 55% exige contingência manual Set-Out/26 não documentada; bloqueia apuração jornada e integração com Folha de Pagamento.</div></div>
-<div class="issue-card"><div class="issue-title">R02 — Workflow — Personalizados 3-6 com datas vencidas e alto volume horas</div><div class="issue-detail">Validação DET Rescisão (reenviado 01/04), Reembolso Educacional e Babá atrasadas; Pers. 6, 7, 9, 10, 12 consomem alto volume de horas comprometendo entrega até 31/08.</div></div>
-<div class="issue-card"><div class="issue-title">R03 — Benefícios — POPs Bradesco aguardando VLI desde Nov/25</div><div class="issue-detail"></div></div>
-<div class="issue-card"><div class="issue-title">R04 — Integrações — De×Para de Códigos indefinido com 13 pendências</div><div class="issue-detail">Módulo em 26% lidera atrasos (13 itens); De×Para VLI em definição impede avanço APIs e pentest Nov/26; risco de integração tardia sistemas legados e fornecedores.</div></div>
-<div class="issue-card"><div class="issue-title">R05 — Cargos e Salários — bloqueio de WKFs e Ponto Eletrônico</div><div class="issue-detail">Módulo em 76% bloqueia entrega de Workflows dependentes e configurações de Ponto Eletrônico; atraso em estrutura organizacional impacta regras de apuração e aprovação.</div></div>
+<div class="issue-card"><div class="issue-title">R01 — Ponto Eletrônico — GEFRE postergado pós Go-Live</div><div class="issue-detail">Entrega GEFRE reprogramada de Out/26 para Dez/26 (4 meses após Go-Live 31/08/26) aguardando retorno VLI, inviabilizando operação assistida completa do módulo Ponto a 55%.</div></div>
+<div class="issue-card"><div class="issue-title">R02 — Integrações — De×Para indefinido bloqueia 13 pendências</div><div class="issue-detail">Módulo Integrações a 26% paralisado por indefinição VLI do De×Para de Códigos, impedindo avanço de APIs que aguardam pentest Nov/26 e travando integração contábil.</div></div>
+<div class="issue-card"><div class="issue-title">R03 — Workflow — WKFs Personalizados 3-6 com datas vencidas</div><div class="issue-detail">Validações DET atrasadas (Rescisão, Reembolso Educacional/Babá) e alto volume de horas nos WKFs Pers. 6, 7, 9, 10 e 12 indicam estouro de capacidade Squadra/LG no módulo a 72%.</div></div>
+<div class="issue-card"><div class="issue-title">R04 — Benefícios — POPs Bradesco aguardando VLI desde Nov/25</div><div class="issue-detail">POPs Bradesco Odontológico sem validação há 6 meses bloqueiam WKFs dependentes e somam 8 pendências atrasadas (Vale Alimentação, Refeição, Unimed) no módulo a 94%.</div></div>
+<div class="issue-card"><div class="issue-title">R05 — Cargos e Salários — Bloqueio de WKFs e Ponto Eletrônico</div><div class="issue-detail">Módulo C&S a 76% identificado como bloqueador de entregas dependentes em Workflow e Ponto Eletrônico, sem detalhamento de pendências críticas que impedem conclusão.</div></div>
           </div>
         </div>
       </div>
@@ -1546,10 +1546,11 @@ img{max-width:100%;display:block}
             <div class="card-title"><div class="card-title-bar" style="background:var(--red)"></div>Alertas Críticos</div>
             <!-- Container preenchido por atualizar-dashboard.js a partir de analise.json (campo alertas_por_frente) -->
             <div id="ac-lista">
-<div class="issue-card amber"><div class="issue-title">Benefícios</div><div class="issue-detail">Msg 1</div></div>
-<div class="issue-card"><div class="issue-title">Ponto Eletrônico</div><div class="issue-detail">Msg 2</div></div>
-<div class="issue-card amber"><div class="issue-title">Workflow</div><div class="issue-detail">Msg 3</div></div>
-<div class="issue-card amber"><div class="issue-title">Integrações</div><div class="issue-detail">Msg 4</div></div>
+<div class="issue-card"><div class="issue-title">Ponto Eletrônico</div><div class="issue-detail">GEFRE a 55% reprogramado para Dez/26 (pós Go-Live 31/08), aguardando retorno VLI. Operação Assistida Set-Out/26 sem módulo crítico.</div></div>
+<div class="issue-card"><div class="issue-title">Integrações</div><div class="issue-detail">26% concluído, 13 pendências atrasadas. De×Para de Códigos indefinido com VLI trava APIs e pentest Nov/26, comprometendo integração contábil.</div></div>
+<div class="issue-card"><div class="issue-title">Workflow</div><div class="issue-detail">72% com WKFs Pers. 3-6 vencidos, validações DET atrasadas (Rescisão, Reembolso Educacional 01/04, Babá). Alto volume horas Pers. 6, 7, 9, 10, 12.</div></div>
+<div class="issue-card amber"><div class="issue-title">Benefícios</div><div class="issue-detail">94% mas POPs Bradesco Odontológico sem validação VLI desde Nov/25 bloqueiam WKFs dependentes. 8 pendências atrasadas (Vales, Unimed).</div></div>
+            </div></div>
             </div>
           </div>
         </div>
@@ -1729,11 +1730,11 @@ img{max-width:100%;display:block}
             <table class="risk-table">
               <thead><tr><th>ID</th><th>Risco</th><th>Impacto</th></tr></thead>
               <tbody id="rc-tbody">
-<tr><td class="risk-id">R01</td><td style="font-size:12px">Risco crono 1</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-<tr><td class="risk-id">R02</td><td style="font-size:12px">Risco crono 2</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-<tr><td class="risk-id">R03</td><td style="font-size:12px">Risco crono 3</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
-<tr><td class="risk-id">R04</td><td style="font-size:12px">Risco crono 4</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
-<tr><td class="risk-id">R05</td><td style="font-size:12px">Risco crono 5</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R01</td><td style="font-size:12px">Ponto Eletrônico GEFRE entrega Dez/26 ultrapassa Go-Live 31/08/26 em 4 meses</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R02</td><td style="font-size:12px">Integrações a 26% com De×Para indefinido impede pentest APIs Nov/26</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R03</td><td style="font-size:12px">Workflow WKFs Personalizados 3-6 vencidos e volume excessivo Pers. 6-12 indicam estouro prazo</td><td><span class="imp-chip" style="background:var(--red-bg);color:var(--red)">Alto</span></td></tr>
+<tr><td class="risk-id">R04</td><td style="font-size:12px">Benefícios POPs Bradesco sem validação há 6 meses travam WKFs dependentes para Set/26</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
+<tr><td class="risk-id">R05</td><td style="font-size:12px">Gerador Relatórios 0% não iniciado a 80 dias Go-Live, exige descope ou postergação</td><td><span class="imp-chip" style="background:var(--amber-bg);color:var(--amber)">Médio</span></td></tr>
               </tbody>
             </table>
           </div>
