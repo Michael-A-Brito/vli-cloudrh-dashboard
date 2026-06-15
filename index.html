@@ -2505,6 +2505,8 @@ function formatShort(d) {
 }
 
 function updateSim(val) {
+  // Guard: aba Simulador removida — sem elementos no DOM
+  if (!document.getElementById('simDate')) return;
   const days = parseInt(val);
   const newGL = addDays(BASE_DATE, days);
   const newOA = addDays(newGL, 30);
