@@ -1110,17 +1110,10 @@ img{max-width:100%;display:block}
     <div class="nav-item" onclick="showSection('financeiro')">
       <span class="nav-icon">◈</span> Financeiro
     </div>
-    <div class="nav-item" onclick="showSection('simulador')">
-      <span class="nav-icon">⚡</span> Simulador Go-Live
-    </div>
     <div class="nav-section-label">Inteligência</div>
     <div class="nav-item" onclick="showSection('analise-ia')">
       <span class="nav-icon">✦</span> Análise IA
       <span class="nav-badge" style="background:linear-gradient(90deg,var(--vli-laranja),#FFB454);font-size:9px">PREVIEW</span>
-    </div>
-    <div class="nav-section-label">Gestão</div>
-    <div class="nav-item" onclick="showSection('gestao')">
-      <span class="nav-icon">◫</span> Nova Atividade
     </div>
   </nav>
 
@@ -2246,90 +2239,6 @@ img{max-width:100%;display:block}
       </div>
     </section>
 
-    <!-- ══════════ SIMULADOR GO-LIVE ══════════ -->
-    <section class="section" id="sec-simulador">
-      <div class="sec-header">
-        <div class="sec-header-dot"></div>
-        <div>
-          <div class="sec-header-title">Simulador de Impacto no Go-Live</div>
-          <div class="sec-header-sub">Simule cenários de atraso e veja o impacto nas datas e custos</div>
-        </div>
-      </div>
-
-      <div class="sim-hero anim d1">
-        <div class="sim-hero-title">Data Base: Go-Live</div>
-        <div class="sim-hero-sub">Arraste o slider para simular atrasos</div>
-        <div class="sim-date-display" id="simDate">31 de Agosto de 2026</div>
-        <div class="sim-days-label" id="simDaysLabel">Data original · sem atraso</div>
-
-        <div class="sim-controls">
-          <div class="sim-label">Dias de atraso: <strong id="simDaysVal" style="color:var(--orange)">0 dias</strong></div>
-          <input class="sim-slider" id="simSlider" type="range" min="0" max="180" value="0" step="5" oninput="updateSim(this.value)">
-          <div class="sim-ticks">
-            <span>Hoje</span><span>30d</span><span>60d</span><span>90d</span><span>120d</span><span>150d</span><span>180d</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sim-impact-grid anim d2">
-        <div class="sim-impact-card">
-          <div class="sim-impact-label">Nova Data Go-Live</div>
-          <div class="sim-impact-value" id="simNewDate" style="font-size:20px;color:var(--text-primary)">31 Ago 2026</div>
-          <div class="sim-impact-sub" id="simNewDateSub">Sem alteração</div>
-        </div>
-        <div class="sim-impact-card">
-          <div class="sim-impact-label">Custo Adicional Estimado</div>
-          <div class="sim-impact-value neutral" id="simCost">R$ 0</div>
-          <div class="sim-impact-sub">~R$ 4.000/dia (base estimada)</div>
-        </div>
-        <div class="sim-impact-card">
-          <div class="sim-impact-label">Operação Assistida</div>
-          <div class="sim-impact-value neutral" id="simOA">30 Set 2026</div>
-          <div class="sim-impact-sub">30 dias após Go-Live</div>
-        </div>
-      </div>
-
-      <div class="sim-risk-list anim d3">
-        <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:12px">Impactos por Cenário</div>
-
-        <div class="sim-risk-item low" id="risk-low">
-          <div class="sim-risk-dot" style="background:var(--green)"></div>
-          <div>
-            <div class="sim-risk-text">0–30 dias · Cenário Baixo Risco</div>
-            <div class="sim-risk-impact">Ajuste pontual de cronograma. Go-Live ainda factível em Jun/2026. Custo adicional abaixo de R$ 120k.</div>
-          </div>
-        </div>
-        <div class="sim-risk-item med" id="risk-med">
-          <div class="sim-risk-dot" style="background:var(--amber)"></div>
-          <div>
-            <div class="sim-risk-text">31–90 dias · Cenário Médio Risco</div>
-            <div class="sim-risk-impact">Impacto em contrato LG e alocações. Go-Live Ago–Nov/2026. Custo adicional R$ 120k–360k. Revisão de escopo necessária.</div>
-          </div>
-        </div>
-        <div class="sim-risk-item high" id="risk-high">
-          <div class="sim-risk-dot" style="background:var(--red)"></div>
-          <div>
-            <div class="sim-risk-text">91–180 dias · Cenário Alto Risco</div>
-            <div class="sim-risk-impact">Go-Live passa para 2027. Possível renegociação de contrato. Custo adicional superior a R$ 360k. Reavaliação estratégica do projeto.</div>
-          </div>
-        </div>
-
-        <div style="margin-top:16px;padding:16px;background:var(--bg);border-radius:var(--radius-md);border:1px solid var(--border)">
-          <div style="font-size:12px;font-weight:700;color:var(--text-primary);margin-bottom:8px">⚠ Principais Riscos Ativos que Podem Causar Atraso</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:var(--text-secondary)">
-            <div>• POPs Benefícios pendentes VLI desde Nov/25</div>
-            <div>• De×Para de Códigos nas Integrações</div>
-            <div>• GEFRE (Ponto): retorno VLI pendente</div>
-            <div>• WKFs Personalizados: alto volume de horas</div>
-            <div>• C&S bloqueando WKFs e Ponto</div>
-            <div>• Autenticação APIs: pentest aguardando VLI</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════ GESTÃO — NOVA ATIVIDADE ══════════ -->
-
     <!-- ══════════ ANÁLISE IA (PREDITIVO) ══════════ -->
     <section class="section" id="sec-analise-ia">
       <div class="sec-header">
@@ -2502,127 +2411,6 @@ img{max-width:100%;display:block}
       </div>
     </section>
 
-    <section class="section" id="sec-gestao">
-      <div class="sec-header">
-        <div class="sec-header-dot"></div>
-        <div>
-          <div class="sec-header-title">Nova Atividade</div>
-          <div class="sec-header-sub">Registre novas atividades, pendências e acordos de prazo</div>
-        </div>
-      </div>
-
-      <div class="grid-2 anim d1">
-        <!-- FORM nova atividade -->
-        <div class="card">
-          <div class="card-title"><div class="card-title-bar"></div>Registrar Nova Atividade</div>
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <div>
-              <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Título da Atividade *</label>
-              <input id="at-titulo" type="text" placeholder="Descreva a atividade..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Módulo / Frente</label>
-                <select id="at-modulo" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-                  <option>Folha de Pagamento</option>
-                  <option>Benefícios</option>
-                  <option>Ponto Eletrônico</option>
-                  <option>eSocial</option>
-                  <option>Interface Contábil</option>
-                  <option>Workflow</option>
-                  <option>Migração de Dados</option>
-                  <option>Integrações</option>
-                  <option>Orçamento Pessoal</option>
-                  <option>Cargos e Salários</option>
-                  <option>Nova frente</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Prioridade</label>
-                <select id="at-prioridade" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none">
-                  <option>Crítico</option>
-                  <option>Alto</option>
-                  <option selected>Médio</option>
-                  <option>Baixo</option>
-                </select>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Responsável</label>
-                <input id="at-responsavel" type="text" placeholder="Nome do responsável" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Empresa</label>
-                <select id="at-empresa" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none">
-                  <option>VLI</option>
-                  <option>LG Informática</option>
-                  <option>Squadra</option>
-                  <option>Outro</option>
-                </select>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Data de Início</label>
-                <input id="at-inicio" type="date" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Data de Entrega</label>
-                <input id="at-entrega" type="date" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-              </div>
-            </div>
-            <div>
-              <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Descrição / Contexto</label>
-              <textarea id="at-descricao" rows="3" placeholder="Contexto adicional, dependências, observações..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);outline:none;resize:vertical" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'"></textarea>
-            </div>
-            <button onclick="registrarAtividade()" style="padding:11px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-family:Manrope,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--transition)" onmouseover="this.style.background='#0046A0'" onmouseout="this.style.background='var(--blue)'">
-              + Registrar Atividade
-            </button>
-          </div>
-
-          <div id="at-toast" style="display:none;margin-top:10px;padding:10px 14px;background:var(--green-bg);border:1px solid var(--green);border-radius:var(--radius-sm);font-size:12px;font-weight:700;color:var(--green)">
-            ✓ Atividade registrada com sucesso!
-          </div>
-        </div>
-
-        <!-- Lista de atividades registradas -->
-        <div class="card">
-          <div class="card-title"><div class="card-title-bar" style="background:var(--orange)"></div>Atividades Registradas</div>
-          <div id="at-lista" style="display:flex;flex-direction:column;gap:8px">
-            <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:12px;background:var(--bg);border-radius:var(--radius-sm)">
-              Nenhuma atividade registrada ainda.<br>Use o formulário ao lado para adicionar.
-            </div>
-          </div>
-          <div style="margin-top:12px;background:#FEF9EC;border:1px solid #FDE68A;border-radius:9px;padding:10px 14px;font-size:11px;color:#92400E;font-weight:600;line-height:1.5;display:flex;gap:8px">
-            <span style="font-size:14px;flex-shrink:0;margin-top:1px">⚠️</span>
-            <span>Dados atualizados automaticamente. Última sincronização: <span class="sync-date">24/04/2026</span>. Para divergências, consulte o Gerente de Projeto.</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- RENEGOCIAÇÃO DE DATAS -->
-      <div class="card anim d2" style="margin-top:20px">
-        <div class="card-title"><div class="card-title-bar" style="background:var(--amber)"></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span>Renegociação de Datas — Acordos Comprometidos</span><span id="rn-total-badge" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700">0 pendentes</span></div></div>
-        <div id="rn-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:4px"></div>
-
-        <!-- Acordos salvos -->
-        <div style="margin-top:16px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-            <div style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px">Histórico de Acordos</div>
-            <button onclick="xlAcordos()" style="margin-left:auto;padding:4px 12px;background:var(--blue);color:white;border-radius:20px;font-size:11px;font-weight:700;font-family:Manrope,sans-serif;cursor:pointer;border:none">⬇ Exportar Acordos</button>
-          </div>
-          <div id="rn-acordos" style="display:flex;flex-direction:column;gap:6px">
-            <div style="font-size:11px;color:var(--text-muted);padding:10px;background:var(--bg);border-radius:6px;text-align:center">Nenhum acordo registrado ainda.</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px;background:#FEF9EC;border:1px solid #FDE68A;border-radius:9px;padding:10px 14px;font-size:11px;color:#92400E;font-weight:600;line-height:1.5;display:flex;gap:8px">
-          <span style="font-size:14px;flex-shrink:0;margin-top:1px">⚠️</span>
-          <span>Estimativa automática: cada acordo registrado gera um impacto estimado no golive com base no peso do módulo. O impacto real deve ser avaliado e confirmado pelo Gerente de Projeto antes de qualquer comunicação oficial.</span>
-        </div>
-      </div>
-    </section>
 
   </div><!-- /content -->
 </div><!-- /main -->
