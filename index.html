@@ -1592,6 +1592,14 @@ img{max-width:100%;display:block}
             <button class="filter-btn"         id="pf-andamento"onclick="filterPend('andamento')">Em andamento</button>
             <button class="filter-btn"         id="pf-critico"  onclick="filterPend('critico')">Críticos</button>
           </div>
+          <!-- Separador visual -->
+          <div style="width:1px;height:22px;background:var(--border)"></div>
+          <!-- Filtros de empresa (responsavel pela acao) - permite ao PM cobrar a parte certa -->
+          <div style="display:flex;gap:6px">
+            <button class="filter-btn active" id="pe-todos" onclick="filterPendEmpresa('todos')" title="Todas as frentes">Empresa: Todos</button>
+            <button class="filter-btn"         id="pe-vli"   onclick="filterPendEmpresa('VLI')" title="Pendencias sob responsabilidade VLI">VLI</button>
+            <button class="filter-btn"         id="pe-lg"    onclick="filterPendEmpresa('LG')"  title="Pendencias sob responsabilidade LG">LG</button>
+          </div>
           <!-- Filtro módulo -->
           <select id="pend-mod-filter" onchange="filterPend()" style="padding:4px 10px;border:1.5px solid var(--border);border-radius:20px;font-family:Manrope,sans-serif;font-size:11px;font-weight:600;color:var(--text-secondary);background:white;cursor:pointer;outline:none">
             <option value="">Todos os módulos</option>
@@ -2869,6 +2877,24 @@ const PRIO_COLOR = {Crítico:'var(--red)',Alto:'var(--amber)',Médio:'var(--blue
 const STATUS_COLOR = {'Atrasado':'var(--red)','Em andamento':'var(--amber)','Concluído':'var(--green)'};
 
 let pfMode = 'todos';
+let peMode = 'todos';   // filtro de empresa: 'todos' | 'VLI' | 'LG'
+
+// Casa empresa do item com o filtro selecionado.
+// Itens compartilhados ("VLI/LG" ou "LG/VLI") aparecem nos DOIS filtros — sao responsabilidade conjunta.
+function matchEmpresa(itemEmp, filter) {
+  if (filter === 'todos') return true;
+  const e = String(itemEmp || '').toUpperCase();
+  return e.indexOf(filter.toUpperCase()) >= 0;
+}
+
+function filterPendEmpresa(emp) {
+  peMode = emp;
+  document.querySelectorAll('[id^=pe-]').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('pe-' + (emp === 'todos' ? 'todos' : emp.toLowerCase()));
+  if (btn) btn.classList.add('active');
+  filterPend();
+}
+
 function filterPend(mode) {
   if (mode) {
     pfMode = mode;
@@ -2881,6 +2907,8 @@ function filterPend(mode) {
   else if (pfMode === 'andamento') items = items.filter(p=>p.status==='Em andamento');
   else if (pfMode === 'critico') items = items.filter(p=>p.prioridade==='Crítico');
   if (modFilter) items = items.filter(p=>p.modulo===modFilter);
+  // Filtro de empresa aplicado por ultimo para preservar contagens dos demais filtros.
+  items = items.filter(p => matchEmpresa(p.empresa, peMode));
   items = [...items].sort((a,b)=>PRIO_ORDER[a.prioridade]-PRIO_ORDER[b.prioridade]);
   renderPend(items);
 }
@@ -2888,7 +2916,13 @@ function renderPend(items) {
   const el = document.getElementById('pend-list');
   const ct = document.getElementById('pend-count');
   if (!el) return;
-  if (ct) ct.textContent = `Exibindo ${items.length} item(ns)`;
+  if (ct) {
+    // Quebra por empresa para que o PM veja imediatamente a distribuicao da responsabilidade.
+    const nVli  = items.filter(p => matchEmpresa(p.empresa, 'VLI')).length;
+    const nLg   = items.filter(p => matchEmpresa(p.empresa, 'LG')).length;
+    const nAmb  = items.filter(p => /VLI/i.test(p.empresa || '') && /LG/i.test(p.empresa || '')).length;
+    ct.textContent = `Exibindo ${items.length} item(ns) · VLI: ${nVli} · LG: ${nLg}` + (nAmb ? ` · Compartilhadas: ${nAmb}` : '');
+  }
   if (!items.length) {
     el.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;background:white;border-radius:var(--radius-md)">Nenhuma pendência encontrada com os filtros selecionados.</div>`;
     return;
